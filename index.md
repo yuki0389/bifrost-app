@@ -45,13 +45,18 @@ iPhone と iPad に対応（iOS 15.1 以降）。基本機能はすべて無料�
   </figure>
   <figure style="margin:0;flex:0 1 220px;">
     <img src="assets/img/shot-speeddial-added.png" width="220" alt="いつものサイトにサイトを追加した画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">サイトを追加したところ。下のタブ一覧にも並ぶ</figcaption>
+    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">サイトを追加したところ。開くたびにサムネイルが新しくなる</figcaption>
   </figure>
 </div>
 
 ### 広告ブロック
 
 AdGuard 互換のフィルタで、広告とトラッキングを自動で止めます。フィルタは週に 1 回自動で更新されます。表示が崩れるサイトは「除外サイト」に登録すると、そのサイトではブロックしません。動画サイトでも広告が流れにくくなっています。
+
+<figure style="margin:12px 0 0;">
+  <img src="assets/img/adblock.png" width="220" alt="広告ブロック除外サイトの設定画面" style="border:1px solid #d0d7de;border-radius:12px;">
+  <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">設定の「広告ブロック除外サイト」。ブロックを適用しないサイトをここに登録する</figcaption>
+</figure>
 
 ### プライベートモード
 
