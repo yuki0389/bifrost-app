@@ -8,7 +8,7 @@ title: Bifrost
 
 Bifrost（ビフレスト）は、片手で快適に操作できるジェスチャー中心の iOS 向け Web ブラウザです。
 
-<a class="btn btn-primary" href="https://apps.apple.com/jp/app/id6772665065">App Store からダウンロード</a>
+<a href="https://apps.apple.com/jp/app/id6772665065" style="display:inline-block;padding:10px 20px;border-radius:8px;background:#0969da;color:#ffffff;font-weight:600;text-decoration:none;">App Store からダウンロード</a>
 
 iPhone と iPad に対応（iOS 15.1 以降）。基本機能はすべて無料で使えます。
 
