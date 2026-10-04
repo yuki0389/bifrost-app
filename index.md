@@ -20,13 +20,34 @@ iPhone と iPad に対応（iOS 15.1 以降）。基本機能はすべて無料�
 
 ページの上で指を L 字に動かすだけで、戻る・進む・タブを閉じる・更新ができます。横にスワイプすると隣のタブに切り替わります。ジェスチャーは種類ごとに設定でオン・オフできます。
 
+<figure style="margin:12px 0 0;">
+  <img src="assets/img/shot-gesture.png" width="220" alt="ジェスチャーでタブを閉じたところ" style="border:1px solid #d0d7de;border-radius:12px;">
+  <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">「タブを閉じる」のジェスチャーをしたところ。画面の中央に操作の印が一瞬出る</figcaption>
+</figure>
+
 ### タブグループ
 
 赤・青・黄・橙・紫・緑の 6 つのグループにタブを分けて、仕事用と私用などを使い分けられます。グループの画面ではタブをドラッグして別のグループへ移せます。下のタブ一覧でタブをダブルタップするとロックされ、誤って閉じることがなくなります。
 
+<figure style="margin:12px 0 0;">
+  <img src="assets/img/shot-groups.png" width="220" alt="タブグループの画面" style="border:1px solid #d0d7de;border-radius:12px;">
+  <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">グループの画面。6 色の段にタブを振り分ける</figcaption>
+</figure>
+
 ### いつものサイト
 
 新しいタブを開くと、よく使うサイトを 9 個まで並べたホーム画面が出ます。サムネイルはサイトを開くたびに自動で更新されます。上部には Yahoo! ニュースの主要トピックスが並びます。起動時にこの画面を開く設定もあります。
+
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;">
+  <figure style="margin:0;flex:0 1 220px;">
+    <img src="assets/img/shot-speeddial.png" width="220" alt="いつものサイトの画面" style="border:1px solid #d0d7de;border-radius:12px;">
+    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">よく使うサイトをサムネイルで並べる</figcaption>
+  </figure>
+  <figure style="margin:0;flex:0 1 220px;">
+    <img src="assets/img/shot-speeddial-added.png" width="220" alt="いつものサイトにサイトを追加した画面" style="border:1px solid #d0d7de;border-radius:12px;">
+    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">サイトを追加したところ。下のタブ一覧にも並ぶ</figcaption>
+  </figure>
+</div>
 
 ### 広告ブロック
 
@@ -35,6 +56,11 @@ AdGuard 互換のフィルタで、広告とトラッキングを自動で止め
 ### プライベートモード
 
 履歴や Cookie を端末に残さずに閲覧できます。プライベートモードのタブはメモリ上だけにあり、モードを解除するかアプリを終了すると消えます。何が残って何が残らないかは、アプリ内の「プライベートモードについて」にまとめてあります。
+
+<figure style="margin:12px 0 0;">
+  <img src="assets/img/shot-private.png" width="220" alt="プライベートモードの画面" style="border:1px solid #d0d7de;border-radius:12px;">
+  <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">プライベートモード中は配色が変わる</figcaption>
+</figure>
 
 ### ダウンロード
 
@@ -56,38 +82,14 @@ http:// のサイトは、先に https:// で開けるか試し、開ければ�
 
 iPad でも使えます。広い画面に合わせてタブ一覧に多くのタブが並び、サイトはパソコン向けの表示で開きます。
 
----
-
-## 画面
-
-<div style="display:flex;gap:12px;overflow-x:auto;padding-bottom:8px;">
-  <figure style="margin:0;flex:0 0 200px;">
-    <img src="assets/img/shot-speeddial.png" width="200" alt="いつものサイトの画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">いつものサイト。よく使うサイトをサムネイルで並べる</figcaption>
+<div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;">
+  <figure style="margin:0;flex:0 1 300px;">
+    <img src="assets/img/shot-ipad-speeddial.png" width="300" alt="iPad のいつものサイトの画面" style="border:1px solid #d0d7de;border-radius:12px;">
+    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">iPad のいつものサイト（ダークテーマ）</figcaption>
   </figure>
-  <figure style="margin:0;flex:0 0 200px;">
-    <img src="assets/img/shot-speeddial-added.png" width="200" alt="いつものサイトにサイトを追加した画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">サイトを追加したところ。下のタブ一覧にも並ぶ</figcaption>
-  </figure>
-  <figure style="margin:0;flex:0 0 200px;">
-    <img src="assets/img/shot-gesture.png" width="200" alt="ジェスチャーでタブを閉じた画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">ジェスチャーでタブを閉じたところ。操作の印が一瞬出る</figcaption>
-  </figure>
-  <figure style="margin:0;flex:0 0 200px;">
-    <img src="assets/img/shot-groups.png" width="200" alt="タブグループの画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">タブグループ。6 色の段にタブを振り分ける</figcaption>
-  </figure>
-  <figure style="margin:0;flex:0 0 200px;">
-    <img src="assets/img/shot-private.png" width="200" alt="プライベートモードの画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">プライベートモード。配色が変わる</figcaption>
-  </figure>
-  <figure style="margin:0;flex:0 0 280px;">
-    <img src="assets/img/shot-ipad-speeddial.png" width="280" alt="iPad のいつものサイトの画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">iPad のいつものサイト（ダークテーマ）</figcaption>
-  </figure>
-  <figure style="margin:0;flex:0 0 280px;">
-    <img src="assets/img/shot-ipad-groups.png" width="280" alt="iPad のタブグループの画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;">iPad のタブグループ</figcaption>
+  <figure style="margin:0;flex:0 1 300px;">
+    <img src="assets/img/shot-ipad-groups.png" width="300" alt="iPad のタブグループの画面" style="border:1px solid #d0d7de;border-radius:12px;">
+    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">iPad のタブグループ</figcaption>
   </figure>
 </div>
 
