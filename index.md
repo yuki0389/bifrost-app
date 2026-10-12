@@ -37,7 +37,7 @@ iPhone と iPad に対応（iOS 15.1 以降）。基本機能はすべて無料�
 
 ### タブグループ
 
-赤・青・黄・橙・紫・緑の 6 つのグループにタブを分けて、仕事用と私用などを使い分けられます。グループの画面ではタブをドラッグして別のグループへ移せます。下のタブ一覧でタブをダブルタップするとロックされ、誤って閉じることがなくなります。
+赤・青・黄・橙・紫・緑の 6 つのグループにタブを分けて、仕事用と私用などを使い分けられます。グループの画面ではタブをドラッグして別のグループへ移せます。下のタブ一覧でタブをダブルタップするとロックされ、下に引いたりジェスチャーをしたりしても閉じなくなります。
 
 <figure style="margin:12px 0 0;">
   <img src="assets/img/shot-groups.png" width="220" alt="タブグループの画面" style="border:1px solid #d0d7de;border-radius:12px;">
@@ -282,12 +282,12 @@ A. 購入したときと同じ Apple アカウントなら使えます。新し�
 
 **Q. アプリが外部に送る情報はありますか？**
 
-A. 閲覧しているページの内容、履歴、ブックマークを開発者や第三者に送ることはありません。アプリ自身が行う通信は次の 5 つです。
+A. 閲覧しているページの内容や、履歴・ブックマークの一覧を、開発者や第三者に送ることはありません。開発者はアプリのためのサーバーを持っていません。アプリ自身が行う通信は次の 5 つです。
 
-- 検索候補: アドレスバーに入力中の文字を Google に送って候補を取得します
-- トレンド: いつものサイトの上部に出す見出しを Yahoo! ニュースから取得します（Pro の X トレンドでは X から）
-- サイトのアイコン: ブックマークやタブに出すアイコンを、サイト名を元に Google のアイコン取得サービスから取得します
-- 広告ブロックのフィルタ: 週に 1 回、フィルタの一覧を取得します
+- 検索候補: アドレスバーと、いつものサイトの検索窓に入力中の文字を Google に送って候補を取得します
+- トレンド: いつものサイトの上部に出す見出しを Yahoo! ニュースから取得します（Pro の X トレンドでは X から。バージョン 1.13 までは、X から取れないときにトレンドの一覧サイト getdaytrends.com を読み取ります）
+- サイトのアイコン: ブックマーク・履歴・タブなどに出すアイコンを、サイト名（ホスト名）を元に Google のアイコン取得サービスから取得します。そのため、表示したサイトの名前は Google に伝わります
+- 広告ブロックのフィルタ: 週に 1 回、フィルタの一覧を配布元（AdGuard と GitHub）から取得します
 - 購入の確認: Bifrost Pro の購入状況を、iOS の仕組みを通して App Store に問い合わせます（Apple とのやり取りで、開発者には送られません）
 
 購入の確認を除き、端末やアカウントを特定する情報は付けません。
@@ -320,14 +320,31 @@ A. 起きたときの操作と、設定の「診断」にある「診断ログ�
 
 ## Privacy Policy
 
-Last updated: 2026-05-24
+Last updated: 2026-10-12
 
 Bifrost (the "App") is a web browser developed for iOS.
 
 ### Data Collection
 
-The App does **NOT** collect, store, or transmit any personal data to the developer or any third party. All user data — including
-bookmarks, browsing history, downloaded files, settings, and tab states — is stored locally on the device only.
+The App does **NOT** collect personal data. The developer does not operate any server for the App, and none of your data —
+including bookmarks, browsing history, downloaded files, settings, and tab states — is sent to the developer. This data is stored
+on your device (and in your own iOS backups, such as iCloud Backup, if you use them).
+
+### Third-Party Services
+
+To provide some features, the App itself contacts the following services. Apart from the purchase check, no information that
+identifies your device or account is attached.
+
+- **Search suggestions**: the text you are typing in the address bar or in the search box of the home screen is sent to Google
+  to fetch suggestions.
+- **Site icons**: the host names of sites shown in bookmarks, history, tabs and similar lists are sent to Google's favicon
+  service to fetch their icons.
+- **Trending topics**: headlines for the home screen are fetched from Yahoo! News (or, for Bifrost Pro users who choose it,
+  trends from X). Up to version 1.13, when trends cannot be fetched from X, the App reads a public trend-listing site,
+  getdaytrends.com, instead.
+- **Ad-block filter lists**: once a week, the filter lists are downloaded from their publishers (AdGuard and GitHub).
+- **Purchases**: the status of a Bifrost Pro purchase is checked with the App Store through Apple's StoreKit. This is handled
+  by Apple; nothing is sent to the developer.
 
 ### Web Content
 
