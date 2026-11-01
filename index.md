@@ -282,12 +282,13 @@ A. 購入したときと同じ Apple アカウントなら使えます。新し�
 
 **Q. アプリが外部に送る情報はありますか？**
 
-A. 閲覧しているページの内容や、履歴・ブックマークの一覧を、開発者や第三者に送ることはありません。開発者はアプリのためのサーバーを持っていません。アプリ自身が行う通信は次の 5 つです。
+A. 閲覧しているページの内容や、履歴・ブックマークの一覧を、開発者や第三者に送ることはありません。開発者はアプリのためのサーバーを持っていません。アプリ自身が行う通信は次の 6 つです。
 
 - 検索候補: アドレスバーと、いつものサイトの検索窓に入力中の文字を Google に送って候補を取得します
 - トレンド: いつものサイトの上部に出す見出しを Yahoo! ニュースから取得します（Pro の X トレンドでは X から。バージョン 1.13 までは、X から取れないときにトレンドの一覧サイト getdaytrends.com を読み取ります）
-- サイトのアイコン: ブックマーク・履歴・タブなどに出すアイコンを、サイト名（ホスト名）を元に Google のアイコン取得サービスから取得します。そのため、表示したサイトの名前は Google に伝わります
-- 広告ブロックのフィルタ: 週に 1 回、フィルタの一覧を配布元（AdGuard と GitHub）から取得します
+- サイトのアイコン: ブックマーク・履歴・タブなどに出すアイコンを、サイト名（ホスト名）を元に Google のアイコン取得サービスから取得します。そのため、表示したサイトの名前は Google に伝わります（バージョン 1.14 以降、プライベートモードのタブでは取得しません）
+- 広告ブロックのフィルタ: 週に 1 回、フィルタの一覧を配布元（AdGuard・GitHub・EasyList）から取得します
+- 要望・不具合を送る: 設定と使い方ガイドの「要望・不具合を送る」を開いたときだけ、Google フォームのページを読み込みます。送信を押すと、選んだ種類と書いた内容、書いたときは機種、アプリと iOS の版が Google フォームに送られ、開発者が読みます。名前やメールアドレスは聞かず、診断ログも付けません（バージョン 1.14 以降）
 - 購入の確認: Bifrost Pro の購入状況を、iOS の仕組みを通して App Store に問い合わせます（Apple とのやり取りで、開発者には送られません）
 
 購入の確認を除き、端末やアカウントを特定する情報は付けません。
@@ -309,6 +310,7 @@ A. 起きたときの操作と、設定の「診断」にある「診断ログ�
 
 - **X (旧 Twitter)**: [@bifrost_apps_x](https://x.com/bifrost_apps_x)
 - **メール**: bifrost.apps.support@gmail.com
+- **アプリから**: 設定のトップと使い方ガイドの「お問い合わせ」にある「要望・不具合を送る」で、匿名のフォームから送れます（バージョン 1.14 以降）。返信が必要なときは、X かメールでご連絡ください
 
 最新情報や開発状況は X で随時発信しています。
 
@@ -320,15 +322,25 @@ A. 起きたときの操作と、設定の「診断」にある「診断ログ�
 
 ## Privacy Policy
 
-Last updated: 2026-10-12
+Last updated: 2026-11-01
 
 Bifrost (the "App") is a web browser developed for iOS.
 
 ### Data Collection
 
-The App does **NOT** collect personal data. The developer does not operate any server for the App, and none of your data —
-including bookmarks, browsing history, downloaded files, settings, and tab states — is sent to the developer. This data is stored
-on your device (and in your own iOS backups, such as iCloud Backup, if you use them).
+The App does **not** collect personal data automatically. The developer does not operate any server for the App, and none of
+your data — including bookmarks, browsing history, downloaded files, settings, and tab states — is sent to the developer. This
+data is stored on your device (and in your own iOS backups, such as iCloud Backup, if you use them). The developer receives only
+what you choose to send with the feedback form described below.
+
+### Feedback Form
+
+From version 1.14, "要望・不具合を送る" (Send requests and bug reports) in Settings and in the user guide opens a Google Form in
+a Bifrost tab. The App fills in only the App version and the iOS version. Nothing is sent until you press the form's submit
+button. The form does not ask for your name, email address or account, and the App does not attach its diagnostic log. What you
+submit (the kind of feedback and your message, and, if filled in, your device model and the versions) is stored in Google Forms
+and is used only to respond to feedback and to improve the App. Please do not include personal information in your message.
+Google Forms is operated by Google under Google's privacy policy.
 
 ### Third-Party Services
 
@@ -338,11 +350,13 @@ identifies your device or account is attached.
 - **Search suggestions**: the text you are typing in the address bar or in the search box of the home screen is sent to Google
   to fetch suggestions.
 - **Site icons**: the host names of sites shown in bookmarks, history, tabs and similar lists are sent to Google's favicon
-  service to fetch their icons.
+  service to fetch their icons. From version 1.14, icons are not fetched for tabs in Private Mode.
 - **Trending topics**: headlines for the home screen are fetched from Yahoo! News (or, for Bifrost Pro users who choose it,
   trends from X). Up to version 1.13, when trends cannot be fetched from X, the App reads a public trend-listing site,
   getdaytrends.com, instead.
-- **Ad-block filter lists**: once a week, the filter lists are downloaded from their publishers (AdGuard and GitHub).
+- **Ad-block filter lists**: once a week, the filter lists are downloaded from their publishers (AdGuard, GitHub and EasyList).
+- **Feedback form**: when you open "要望・不具合を送る", the form page is loaded from Google, and when you submit it, what you
+  entered is sent to Google Forms (see Feedback Form above).
 - **Purchases**: the status of a Bifrost Pro purchase is checked with the App Store through Apple's StoreKit. This is handled
   by Apple; nothing is sent to the developer.
 
