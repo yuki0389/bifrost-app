@@ -54,8 +54,8 @@ iPhone と iPad に対応（iOS 15.1 以降）。基本機能はすべて無料�
     <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">よく使うサイトをサムネイルで並べる</figcaption>
   </figure>
   <figure style="margin:0;flex:0 1 220px;">
-    <img src="assets/img/shot-speeddial-added.png" width="220" alt="いつものサイトにサイトを追加した画面" style="border:1px solid #d0d7de;border-radius:12px;">
-    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">サイトを追加したところ。ここから開くたびにサムネイルが新しくなる</figcaption>
+    <img src="assets/img/shot-speeddial-dark.png" width="220" alt="ダークテーマのいつものサイトの画面" style="border:1px solid #d0d7de;border-radius:12px;">
+    <figcaption style="font-size:0.85em;color:#57606a;margin-top:4px;">ダークテーマの画面。テーマは設定で、自動・ライト・ダークから選べる</figcaption>
   </figure>
 </div>
 
