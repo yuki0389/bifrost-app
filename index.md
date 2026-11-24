@@ -431,11 +431,31 @@ details > :last-child { margin-bottom: 0; }
 <p>A. Bifrost Pro の機能で、ブックマーク（フォルダと並びを含む）と「いつものサイト」を、同じ Apple Account でサインインした iPhone / iPad の間で同期します。設定の「iCloud 同期」でオンにします（iCloud にサインインしている必要があります）。設定・履歴・タブ・Cookie と、「いつものサイト」のサムネイルは同期しません。プライベートモード中に追加・変更したブックマークと「いつものサイト」は同期されます。データは Apple の iCloud のあなたの個人用の領域にだけ保存され、開発者のサーバーには送らず、開発者は中身を見られません。オフにしても、この端末と iCloud のデータは残ります。iCloud に保存した分は、設定の「iCloud のデータを削除」で消せます。</p>
 </details>
 
+### 新着記事
+
+<details id="auto-add">
+<summary>Q. 新着記事の「よく見るサイトを自動で追加」は、どのように探して、どのくらいの間隔で確認しますか？</summary>
+<p>A. バージョン 1.17 以降で、設定の「新着記事」の「よく見るサイトを自動で追加」をオンにしたときだけ動きます。閲覧履歴から、よく見るサイトの新しい記事の配信（RSS / Atom）を探して、登録します。仕様は次のとおりです。</p>
+<ul>
+<li>探す対象: 通常モードの閲覧履歴の直近 30 日で、同じサイトの別々のページを 3 つ以上見たサイトです。検索結果・ログイン・支払いのページと、検索・メール・SNS・動画・通販・百科事典などの大手サイトは数えません。プライベートモードの履歴は残らないので、対象になりません。閲覧履歴を調べるのは端末の中だけで、履歴はどこにも送りません。</li>
+<li>読み込むもの: 候補のサイトのトップページと、そこに書かれた配信の場所、配信がありそうな決まった場所、そして各サイトの robots.txt だけです。閲覧履歴にあるページそのものは読みません（ログアウトや配信停止などのリンクを、知らないうちに開かないためです）。配信のないサイト（銀行など）のトップページも探すために読み込みますが、一覧には出ません。読み込みは各サイトから直接行い、開発者のサーバーは通りません。取得先のサイトには、ふつうにそのサイトを開いたときと同じく、アクセスしたこと（端末の IP アドレスなど）が伝わります。</li>
+<li>robots.txt: サイトが robots.txt で読み込みを断っている場合（<code>User-agent: *</code> の決まりに従います）は、そのページを読みません。</li>
+<li>最初の確認: オンにした直後に 1 回、よく見るサイトを探して、見つかったサイトの一覧を出します（1 回に最大 15 サイトを調べます。プライベートモードの間は探さず、通常モードに戻ってから探します）。チェックを外したサイトは追加しません。確認して始めるまで、自動では登録しません。一覧は 24 時間たつと古くなり、もう一度探せます。オフにして、もう一度オンにしたときも、最初から確認します。</li>
+<li>確認の間隔: 確認を済ませたあとは、設定の「探す間隔」で選んだ間隔（既定は 24 時間。3 時間にもできます）に 1 回までです。いつものサイトを表示したときや、アプリに戻ったときに、前回から選んだ時間以上たっていれば始まります（アプリが裏で動き続けることはありません）。1 回に調べるのは最大 5 サイトです。低電力モードの間は、この自動の確認は動きません（最初の確認と、自分で押す「探す」は動きます）。プライベートモードの間は、探しません。通信できなかったときは、アプリを開いている間、1 時間あけて試し直します。</li>
+<li>登録したサイトの更新: 登録したサイト（手で登録したものも含みます）の新着記事は、いつものサイトを表示したときなどに、前回の取得から 30 分以上たっていれば取り直します（低電力モードでは 2 時間、続けて読み込めないサイトは 6 時間）。</li>
+<li>配信が見つからなかったサイト: robots.txt で断られたサイトと、応答のなかったサイトも含めて、7 日、30 日、90 日と間をあけて、探し直します。</li>
+<li>上限: 自動で追加するのは 10 サイトまで、手で登録したサイトを含めて全部で 30 サイトまでです。</li>
+<li>自動で外すとき: 自動で追加したサイトだけが対象です。直近 30 日の履歴を途切れずに見ていて、足してからも 30 日間一度も見ていないサイトと、14 日以上、8 回以上続けて読み込めないサイトを外し、画面の上でお知らせします。手で登録したサイトは外しません。外したサイトは「外したサイト」に残り、自動では追加しません（そこから戻せます）。</li>
+<li>閲覧履歴を消したとき: 自動で追加したサイトと「外したサイト」は消え、最初の確認に戻ります。手で登録したサイトは残ります。</li>
+<li>Cookie: 読み込みには Cookie を付けません。ただし、サイトが別のアドレスへ転送する場合と、記事の写真を読み込む場合は、iOS が覚えているそのアドレスの Cookie が付くことがあります。</li>
+</ul>
+</details>
+
 ### プライバシーとサポート
 
 <details>
 <summary>Q. アプリが外部に送る情報はありますか？</summary>
-<p>A. 閲覧しているページの内容や、履歴・ブックマークの一覧を、開発者や第三者に送ることはありません（Pro の iCloud 同期をオンにしたときに、あなた自身の iCloud に保存する場合を除きます）。開発者はアプリのためのサーバーを持っていません。アプリ自身が行う通信は次の 7 つです。</p>
+<p>A. 閲覧しているページの内容や、履歴・ブックマークの一覧を、開発者や第三者に送ることはありません（Pro の iCloud 同期をオンにしたときに、あなた自身の iCloud に保存する場合を除きます）。開発者はアプリのためのサーバーを持っていません。アプリ自身が行う通信は次の 8 つです。</p>
 <ul>
 <li>検索候補: アドレスバーと、いつものサイトの検索窓に入力中の文字を Google に送って候補を取得します</li>
 <li>トレンド: いつものサイトの上部に出す見出しを Yahoo! ニュースから取得します（Pro の X トレンドでは X から。バージョン 1.13 までは、X から取れないときにトレンドの一覧サイト getdaytrends.com を読み取ります）</li>
@@ -443,9 +463,10 @@ details > :last-child { margin-bottom: 0; }
 <li>広告ブロックのフィルタ: 週に 1 回、フィルタの一覧を配布元（AdGuard・GitHub・EasyList）から取得します</li>
 <li>要望・不具合を送る: 設定と使い方ガイドの「要望・不具合を送る」を開いたときだけ、Google フォームのページを読み込みます。送信を押すと、選んだ種類と書いた内容、書いたときは機種、アプリと iOS の版が Google フォームに送られ、開発者が読みます。名前やメールアドレスは聞かず、診断ログも付けません（バージョン 1.14 以降）</li>
 <li>購入の確認: Bifrost Pro の購入状況を、iOS の仕組みを通して App Store に問い合わせます（Apple とのやり取りで、開発者には送られません）</li>
-<li>iCloud 同期（Pro）: オンにしたときだけ、ブックマークと「いつものサイト」を、あなたの iCloud（Apple の CloudKit の個人用データベース）に保存し、同じ Apple Account の端末と同期します（Apple とのやり取りで、開発者には送られず、開発者は中身を見られません）</li>
+<li>iCloud 同期（Pro）: オンにしたときだけ、ブックマークと「いつものサイト」（バージョン 1.17 以降は、新着記事に登録したサイトも）を、あなたの iCloud（Apple の CloudKit の個人用データベース）に保存し、同じ Apple Account の端末と同期します（Apple とのやり取りで、開発者には送られず、開発者は中身を見られません）</li>
+<li>新着記事（バージョン 1.17 以降。設定でオンにしたときだけ）: いつものサイトに出す新着記事のために、あなたが登録したサイトの更新情報（RSS / Atom のフィード）と、記事の写真を、各サイトから直接取得します。取得先のサイトには、ふつうにそのサイトを開いたときと同じく、アクセスしたこと（端末の IP アドレスなど）が伝わります。登録したサイトと取得した記事は端末の中に保存し（登録したサイトは、Pro の iCloud 同期をオンにしたときは、あなた自身の iCloud にも保存します）、開発者や第三者には送りません。更新情報の最初の要求には Cookie を付けませんが、サイトが別のアドレスへ転送した場合と、記事の写真を読み込む場合は、iOS が覚えているそのアドレスの Cookie（Bifrost で開いたサイトのログインの Cookie を含むことがあります）が付き、写真の応答の Cookie は保存されることがあります。プライベートモードのタブを開いているときも取得します（開いた記事の記録は残しません）。設定で「よく見るサイトを自動で追加」もオンにしたときは、閲覧履歴から端末の中で選んだ、よく見るサイトのトップページ・配信・robots.txt も、同じように各サイトから直接取得します（閲覧履歴は送りません。確認は、選んだ間隔（既定は 24 時間。3 時間にもできます）に 1 回までです。仕様は「<a href="#auto-add">よく見るサイトを自動で追加</a>」の項をご覧ください）</li>
 </ul>
-<p>購入の確認と iCloud 同期を除き、端末やアカウントを特定する情報は付けません。</p>
+<p>購入の確認と iCloud 同期、新着記事の Cookie（上の一覧）を除き、端末やアカウントを特定する情報は付けません。</p>
 <p>ページ全体の翻訳（iOS 18 以上。バージョン 1.16 以降）は、Apple の翻訳の仕組みを使って端末の中で行います。ページの内容をアプリが外部に送ることはありません。初めて使う言語では、iOS が翻訳用の言語データをダウンロードします（確認の画面が出ます）。Apple の文書によると、Apple は翻訳機能の利用状況や性能の統計（アプリのバンドル ID と翻訳元・翻訳先の言語を含む）を集めることがありますが、翻訳する内容は含まれません。</p>
 </details>
 
@@ -555,7 +576,7 @@ App Store の[評価・レビュー](https://apps.apple.com/jp/app/id6772665065?
 
 ## Privacy Policy
 
-Last updated: 2026-11-10
+Last updated: 2026-11-24
 
 Bifrost (the "App") is a web browser developed for iOS.
 
@@ -563,7 +584,7 @@ Bifrost (the "App") is a web browser developed for iOS.
 
 The App does **not** collect personal data automatically. The developer does not operate any server for the App, and none of
 your data — including bookmarks, browsing history, downloaded files, settings, and tab states — is sent to the developer. This
-data is stored on your device (and in your own iOS backups, such as iCloud Backup, if you use them). If you turn on iCloud Sync (a Bifrost Pro feature, available from version 1.15), your bookmarks (including folders and their order) and Speed Dial (home screen) sites are also stored in your own iCloud account, in a private CloudKit database provided by Apple. That data is available only to you through your Apple Account; the developer cannot read it and does not receive it. History, tabs, settings and Speed Dial thumbnails are not synced. The developer receives only
+data is stored on your device (and in your own iOS backups, such as iCloud Backup, if you use them). If you turn on iCloud Sync (a Bifrost Pro feature, available from version 1.15), your bookmarks (including folders and their order), Speed Dial (home screen) sites and, from version 1.17, the sites you register for New Articles are also stored in your own iCloud account, in a private CloudKit database provided by Apple. That data is available only to you through your Apple Account; the developer cannot read it and does not receive it. History, tabs, settings, Speed Dial thumbnails and fetched articles are not synced. The developer receives only
 what you choose to send with the feedback form described below.
 
 ### Feedback Form
@@ -577,7 +598,7 @@ Google Forms is operated by Google under Google's privacy policy.
 
 ### Third-Party Services
 
-To provide some features, the App itself contacts the following services. Apart from the purchase check and iCloud Sync, no information that
+To provide some features, the App itself contacts the following services. Apart from the purchase check, iCloud Sync and the cookies described under New Articles below, no information that
 identifies your device or account is attached.
 
 - **Search suggestions**: the text you are typing in the address bar or in the search box of the home screen is sent to Google
@@ -592,9 +613,27 @@ identifies your device or account is attached.
   entered is sent to Google Forms (see Feedback Form above).
 - **Purchases**: the status of a Bifrost Pro purchase is checked with the App Store through Apple's StoreKit. This is handled
   by Apple; nothing is sent to the developer.
-- **iCloud Sync (Bifrost Pro)**: when you turn it on, bookmarks and Speed Dial sites are saved to your private iCloud (CloudKit)
-  storage and synced to your other devices that use the same Apple Account. This is handled by Apple; nothing is sent to the
-  developer.
+- **iCloud Sync (Bifrost Pro)**: when you turn it on, bookmarks, Speed Dial sites and (from version 1.17) the sites you register
+  for New Articles are saved to your private iCloud (CloudKit) storage and synced to your other devices that use the same Apple
+  Account. This is handled by Apple; nothing is sent to the developer.
+- **New Articles (from version 1.17; only if you turn it on in Settings)**: the App downloads the feeds (RSS or Atom) of the
+  sites you register, and the images of their articles, directly from those sites and from the servers that host the images.
+  The sites you register and the articles fetched are stored on your device (and, if you use iCloud Sync, the sites you
+  register are also stored in your own iCloud, as described above); nothing is sent to the developer. Like any visit from a
+  browser, a request tells the site that you accessed it (for example, your IP address). The App does not attach cookies to the
+  first request for a feed. However, if a site redirects the request to another address, and when the App loads an article's
+  image, iOS may attach the cookies it holds for that address (which can include login cookies of sites you opened in Bifrost),
+  and cookies set in an image response may be stored. Feeds are also fetched while Private Mode tabs are open (articles you open
+  from the list are not recorded as opened in Private Mode).
+- **Add Frequently Visited Sites Automatically (from version 1.17; only if you turn it on in Settings)**: the App chooses
+  frequently visited sites from your browsing history (the last 30 days, normal mode only) on your device; the history itself is
+  never sent anywhere. To find the feeds of those sites, the App downloads each site's top page, the feed locations it points to or
+  commonly uses, and the site's robots.txt directly from the site (not through the developer's servers), at most once per interval
+  you choose in Settings (24 hours by default, or 3 hours) after you confirm the first list, and it does not download pages that
+  the site's robots.txt disallows. Like any visit, a request tells the site that you accessed it (for example, your IP address).
+  The App does not attach cookies to these requests, except where iOS attaches them after a redirect, as described under New
+  Articles. It does not search while Private Mode is on, and the automatic check does not run in Low Power Mode (a search that
+  you start yourself, such as the first one, does).
 
 ### Web Content
 
