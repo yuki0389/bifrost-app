@@ -1,0 +1,1450 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bifrost | 片手で快適に操作できる、ジェスチャー中心の iOS 向け Web ブラウザ</title>
+<meta name="description" content="片手で快適に操作できる、ジェスチャー中心の iOS 向け Web ブラウザ">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c111b" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://yuki0389.github.io/bifrost-app/">
+<link rel="icon" type="image/png" href="assets/img/icon.png">
+<link rel="apple-touch-icon" href="assets/img/icon.png">
+<meta property="og:title" content="Bifrost">
+<meta property="og:locale" content="ja">
+<meta property="og:description" content="片手で快適に操作できる、ジェスチャー中心の iOS 向け Web ブラウザ">
+<meta property="og:url" content="https://yuki0389.github.io/bifrost-app/">
+<meta property="og:site_name" content="Bifrost">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<meta property="twitter:title" content="Bifrost">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"片手で快適に操作できる、ジェスチャー中心の iOS 向け Web ブラウザ","headline":"Bifrost","name":"Bifrost","url":"https://yuki0389.github.io/bifrost-app/"}</script>
+<style>
+/* ===== 色（明るい / 暗い）===== */
+:root {
+  --bg: #ffffff;
+  --bg-2: #f4f6fa;
+  --panel: #e9eef6;
+  --card: #ffffff;
+  --text: #111827;
+  --text-2: #4b5563;
+  --line: #dde3ec;
+  --brand: #1f5fd6;
+  --link: #1a56c4;
+  --btn: #1f5fd6;
+  --num: #b8430a;
+  --pro-tint: #eef4ff;
+  --pro-ink: #1a4fb5;
+  --focus: #1f5fd6;
+  --bezel: #0d0f14;
+  --header-bg: rgba(255, 255, 255, 0.9);
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.05), 0 14px 32px rgba(16, 24, 40, 0.08);
+  --phone-shadow: 0 24px 48px rgba(16, 24, 40, 0.2);
+  --rainbow: linear-gradient(90deg, #f87171, #fb923c, #facc15, #4ade80, #60a5fa, #a78bfa);
+  --st-done: #177a43; --st-done-bg: #e7f5ec;
+  --st-next: #1f5fd6; --st-next-bg: #e8f0fe;
+  --st-hold: #8a5300; --st-hold-bg: #fdf3e1;
+  --st-no: #4b5563; --st-no-bg: #eef0f3;
+  --font: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "BIZ UDPGothic", "Yu Gothic UI", "Yu Gothic", Meiryo, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c111b;
+    --bg-2: #111827;
+    --panel: #18223a;
+    --card: #131c2c;
+    --text: #e7ecf4;
+    --text-2: #a7b2c3;
+    --line: #26324a;
+    --brand: #7fb0ff;
+    --link: #8cb8ff;
+    --btn: #2a66db;
+    --num: #ff9d62;
+    --pro-tint: #17284a;
+    --pro-ink: #a8c8ff;
+    --focus: #8cb8ff;
+    --bezel: #000000;
+    --header-bg: rgba(12, 17, 27, 0.88);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 14px 32px rgba(0, 0, 0, 0.25);
+    --phone-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+    --st-done: #7ee2a8; --st-done-bg: #10291c;
+    --st-next: #9cc2ff; --st-next-bg: #14254a;
+    --st-hold: #ffd08a; --st-hold-bg: #33260f;
+    --st-no: #b8c0cc; --st-no-bg: #222a38;
+  }
+}
+
+/* ===== 土台 ===== */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+  line-break: strict;
+}
+img { max-width: 100%; height: auto; }
+a { color: var(--link); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; border-radius: 6px; }
+[id] { scroll-margin-top: 76px; }
+h1, h2, h3, h4 { word-break: auto-phrase; }
+code { font-size: 0.9em; padding: 0.1em 0.35em; border-radius: 6px; background: var(--bg-2); border: 1px solid var(--line); }
+.nw { white-space: nowrap; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 0 16px; }
+@media (min-width: 768px) { .wrap { padding: 0 32px; } }
+.skip { position: absolute; left: 8px; top: -80px; z-index: 100; padding: 10px 16px; border-radius: 10px; background: var(--btn); color: #fff; font-weight: 700; }
+.skip:focus { top: 8px; }
+
+/* ===== 上のナビ（固定）===== */
+.site-header { position: sticky; top: 0; z-index: 50; background: var(--header-bg); border-bottom: 1px solid var(--line); -webkit-backdrop-filter: saturate(1.6) blur(14px); backdrop-filter: saturate(1.6) blur(14px); }
+.site-header::before { content: ""; display: block; height: 3px; background: var(--rainbow); }
+.hdr-in { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 4px; height: 56px; padding-left: 12px; }
+.brand { display: inline-flex; align-items: center; gap: 10px; flex: none; min-height: 44px; min-width: 44px; padding: 0 4px; color: var(--text); font-weight: 800; font-size: 17px; text-decoration: none; }
+.brand img { width: 30px; height: 30px; border-radius: 8px; display: block; }
+.brand span { display: none; }
+.hdr-nav { flex: 1; min-width: 0; overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(90deg, #000 calc(100% - 32px), transparent); }
+.hdr-nav::-webkit-scrollbar { display: none; }
+.hdr-nav ul { display: flex; margin: 0; padding: 0 28px 0 0; list-style: none; white-space: nowrap; }
+.hdr-nav a { display: flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 10px; border-radius: 10px; color: var(--text-2); font-size: 14px; font-weight: 700; text-decoration: none; }
+.hdr-nav a:hover { color: var(--text); background: var(--bg-2); }
+@media (min-width: 1000px) {
+  .hdr-in { padding: 0 24px; }
+  .brand span { display: inline; }
+  .hdr-nav { -webkit-mask-image: none; mask-image: none; overflow: visible; }
+  .hdr-nav ul { justify-content: flex-end; padding: 0; }
+}
+
+/* ===== 見出し・節 ===== */
+.eyebrow { margin: 0 0 10px; color: var(--brand); font-size: 12px; font-weight: 800; letter-spacing: 0.16em; line-height: 1.4; text-transform: uppercase; }
+.sec { padding: 64px 0; }
+.sec-alt { background: var(--bg-2); }
+@media (min-width: 900px) { .sec { padding: 96px 0; } }
+.sec-head { max-width: 780px; margin-bottom: 28px; }
+.sec-head h2, .sec-title {
+  margin: 0 0 14px;
+  font-size: clamp(26px, 6.6vw, 40px);
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  font-feature-settings: "palt";
+}
+.sec-head > p:not(.eyebrow) { margin: 0 0 10px; color: var(--text-2); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 18px 20px; }
+
+/* ===== ヒーロー ===== */
+.hero { padding: 28px 0 56px; overflow: hidden; }
+.hero-grid { display: grid; gap: 18px; grid-template-columns: minmax(0, 1fr); grid-template-areas: "app" "title" "lead" "cta" "note" "device" "points"; }
+.hero-app { grid-area: app; display: flex; align-items: center; gap: 12px; margin: 0; font-size: 20px; font-weight: 800; letter-spacing: 0.01em; }
+.hero-app img { width: 56px; height: 56px; border-radius: 14px; display: block; box-shadow: 0 0 0 1px var(--line); }
+.hero h1 { grid-area: title; margin: 6px 0 0; font-size: clamp(30px, 8.1vw, 58px); font-weight: 800; line-height: 1.22; letter-spacing: -0.02em; font-feature-settings: "palt"; }
+.hero-lead { grid-area: lead; margin: 0; color: var(--text-2); font-size: 17px; }
+.hero-cta { grid-area: cta; margin: 6px 0 0; }
+.hero-note { grid-area: note; margin: 0; color: var(--text-2); font-size: 14px; }
+.hero-points { grid-area: points; list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 14px; }
+.hero-points li { padding: 2px 0 2px 14px; border-left: 3px solid var(--brand); line-height: 1.6; }
+.hero-points b { display: block; font-size: 16px; }
+.hero-points span { color: var(--text-2); font-size: 14px; }
+.hero-device { grid-area: device; margin: 12px 0 0; }
+.btn-store { display: inline-flex; align-items: center; justify-content: center; min-height: 52px; padding: 0 24px; border-radius: 14px; background: var(--btn); color: #ffffff; font-size: 16px; font-weight: 800; text-decoration: none; box-shadow: 0 8px 20px rgba(31, 95, 214, 0.28); }
+.btn-store:hover { filter: brightness(1.07); text-decoration: none; }
+@media (min-width: 900px) {
+  .hero { padding: 64px 0 96px; }
+  .hero-grid { column-gap: 56px; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); grid-template-rows: 1fr repeat(6, auto) 1fr; grid-template-areas: ". device" "app device" "title device" "lead device" "points device" "cta device" "note device" ". device"; }
+  .hero-device { margin: 0; }
+  .hero h1 { font-size: clamp(34px, 4.3vw, 50px); }
+  .hero-points { margin: 10px 0 6px; }
+}
+
+/* ===== 画面写真の枠 ===== */
+.panel { position: relative; display: flex; justify-content: center; align-items: flex-start; gap: 16px; padding: 32px 16px 20px; border-radius: 28px; background: var(--panel); }
+.shot { margin: 0; display: flex; flex-direction: column; align-items: center; min-width: 0; }
+.shot figcaption { max-width: 300px; margin-top: 12px; color: var(--text-2); font-size: 13px; line-height: 1.6; text-align: center; }
+.phone { position: relative; width: min(220px, 58vw); padding: 9px; border-radius: 40px; background: var(--bezel); box-shadow: var(--phone-shadow); }
+.phone img { display: block; width: 100%; height: auto; border-radius: 31px; }
+.panel-wrap { gap: 12px; }
+.panel-wrap .shot { flex: 1 1 0; }
+.panel-wrap .tablet { width: 100%; max-width: 400px; padding: 6px; border-radius: 16px; }
+.panel-wrap .tablet img { border-radius: 10px; }
+@media (min-width: 900px) { .panel-wrap { gap: 32px; } .panel-wrap .tablet { padding: 10px; border-radius: 26px; } .panel-wrap .tablet img { border-radius: 16px; } }
+.panel-duo .phone { width: min(196px, 39vw); padding: 7px; border-radius: 32px; }
+.panel-duo .phone img { border-radius: 25px; }
+.tablet { position: relative; width: min(360px, 80vw); padding: 10px; border-radius: 26px; background: var(--bezel); box-shadow: var(--phone-shadow); }
+.tablet img { display: block; width: 100%; height: auto; border-radius: 16px; }
+@media (prefers-color-scheme: dark) { .phone, .tablet { box-shadow: 0 0 0 1px #2b3650, var(--phone-shadow); } }
+@media (min-width: 900px) { .panel { padding: 44px 28px 24px; } .phone { width: 260px; } .panel-duo .phone { width: 210px; } }
+
+/* 吹き出し */
+.callout { position: absolute; z-index: 2; display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px; border-radius: 999px; background: var(--card); color: var(--text); font-size: 12.5px; font-weight: 800; line-height: 1.3; white-space: nowrap; box-shadow: 0 6px 18px rgba(16, 24, 40, 0.18); }
+.callout::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--num); flex: none; }
+.callout.c1 { top: 11%; right: -24%; }
+.callout.c2 { top: 45%; left: -27%; }
+.callout.c3 { top: 66%; right: -22%; }
+@media (max-width: 359px) { .callout { display: none; } }
+
+/* ===== お知らせ ===== */
+.news { padding: 44px 0; background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.news h2 { margin: 0; font-size: 24px; font-weight: 800; }
+.news-list { list-style: none; margin: 16px 0 0; padding: 0; border-top: 1px solid var(--line); }
+.news-list li { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 6px 12px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.news-list time { color: var(--text-2); font-size: 14px; font-variant-numeric: tabular-nums; }
+.news-list p { grid-column: 1 / -1; margin: 0; }
+.pill { justify-self: start; display: inline-flex; align-items: center; height: 24px; padding: 0 10px; border: 1.5px solid var(--brand); border-radius: 999px; color: var(--brand); font-size: 12px; font-weight: 800; line-height: 1; white-space: nowrap; }
+@media (min-width: 768px) {
+  .news-list li { grid-template-columns: 112px 92px 1fr; align-items: baseline; }
+  .news-list p { grid-column: auto; }
+}
+
+/* ===== 主な機能 =====
+   ブロック（画面写真つき）もカード（写真なし）も同じ <article class="feat">。
+   カード = class に feat--card。ブロックにするときは feat--card を外して .feat-media を足す。
+   番号（01 —）は counter で自動（カードは数えない）。 */
+.feats { display: grid; grid-template-columns: minmax(0, 1fr); column-gap: 16px; align-items: start; counter-reset: feat; }
+@media (min-width: 640px) { .feats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1000px) { .feats { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.feat { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, 1fr); gap: 28px; padding: 48px 0; border-top: 1px solid var(--line); counter-increment: feat; }
+.feats > .feat:first-child { border-top: 0; padding-top: 12px; }
+.feat-head { margin: 0; }
+.feat-name { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 12px; color: var(--num); font-size: 13px; font-weight: 800; letter-spacing: 0.06em; line-height: 1.4; }
+.feat-no::before { content: counter(feat, decimal-leading-zero) " —"; }
+.feat-name .pill { border-color: var(--num); color: var(--num); height: 22px; font-size: 11.5px; letter-spacing: 0; }
+.catch { display: block; font-size: clamp(24px, 6.3vw, 34px); font-weight: 800; line-height: 1.38; letter-spacing: -0.01em; font-feature-settings: "palt"; }
+.feat-body > p { margin: 16px 0 0; color: var(--text-2); }
+.checks { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 10px; }
+.checks li { position: relative; padding-left: 30px; line-height: 1.65; }
+.checks li::before { content: ""; position: absolute; left: 3px; top: 0.4em; width: 14px; height: 7px; border-left: 2.5px solid var(--brand); border-bottom: 2.5px solid var(--brand); transform: rotate(-45deg); }
+@media (min-width: 900px) {
+  .feat { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; padding: 80px 0; }
+  .feat:not(.feat--wide):nth-child(even of .feat:not(.feat--card)) .feat-media { order: -1; }
+  .feat--wide { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .feat--wide .feat-body { max-width: 780px; }
+}
+/* カード（画面写真なし） */
+.feats-divider { grid-column: 1 / -1; padding: 56px 0 20px; border-top: 1px solid var(--line); }
+.feats-divider-title { margin: 0; font-size: clamp(24px, 6.3vw, 34px); font-weight: 800; line-height: 1.35; font-feature-settings: "palt"; }
+.feat.feat--card { grid-column: auto; display: block; margin: 0 0 16px; padding: 20px 20px 6px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); counter-increment: none; }
+.feat--card .feat-no { display: none; }
+.feat--card .feat-name { margin: 0 0 6px; color: var(--text); font-size: 18px; letter-spacing: 0; }
+.feat--card .feat-name::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--brand); flex: none; }
+.feat--card .feat-body > p { margin: 0; font-size: 15px; line-height: 1.75; }
+.feat--card details.more { margin-top: 12px; }
+
+/* 詳しく見る */
+details.more { margin-top: 18px; border-top: 1px solid var(--line); }
+details.more > summary { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 2px; color: var(--link); font-size: 15px; font-weight: 700; cursor: pointer; list-style: none; }
+details.more > summary::-webkit-details-marker { display: none; }
+details.more > summary::after { content: ""; width: 7px; height: 7px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: translateY(-2px) rotate(45deg); transition: transform 0.2s; }
+details.more[open] > summary::after { transform: translateY(1px) rotate(225deg); }
+details.more > p { margin: 4px 0 8px; padding: 14px 16px; border-radius: 14px; background: var(--bg-2); color: var(--text); font-size: 15px; line-height: 1.85; }
+
+/* ジェスチャーの早見表（文字だけ） */
+.gesture-card { margin-top: 20px; padding: 16px 18px 14px; border: 1px solid var(--line); border-radius: 18px; background: var(--card); }
+.gesture-card > p { margin: 0; }
+.gesture-card .gc-title { font-size: 13px; font-weight: 800; color: var(--text-2); letter-spacing: 0.04em; }
+.gesture-card dl { margin: 8px 0 0; display: grid; grid-template-columns: auto minmax(0, 1fr); }
+.gesture-card dt, .gesture-card dd { margin: 0; padding: 8px 0; border-top: 1px solid var(--line); line-height: 1.5; }
+.gesture-card dt { padding-right: 14px; color: var(--brand); font-size: 18px; font-weight: 800; letter-spacing: 0.04em; white-space: nowrap; }
+.gesture-card dd { align-self: center; font-weight: 700; }
+.gesture-card .gc-note { margin-top: 10px; color: var(--text-2); font-size: 13px; line-height: 1.65; }
+@media (min-width: 600px) and (max-width: 899px) {
+  .gesture-card dl { grid-template-columns: auto minmax(0, 1fr) auto minmax(0, 1fr); }
+  .gesture-card dd:nth-of-type(odd) { padding-right: 12px; }
+}
+
+/* ===== 長い節（本文はそのまま・見た目だけ）===== */
+.tip-grid { columns: 1; column-gap: 20px; }
+@media (min-width: 900px) { .tip-grid { columns: 2; } }
+.tip { display: inline-block; width: 100%; margin: 0 0 20px; break-inside: avoid; -webkit-column-break-inside: avoid; }
+.tip h3, .card h3 { margin: 4px 0 6px; font-size: 18px; font-weight: 800; line-height: 1.45; }
+.tip ul, .card ul { margin: 0; padding-left: 1.2em; }
+.tip li, .card li { margin: 8px 0; line-height: 1.75; }
+.card > p { margin: 8px 0; }
+.card > p:first-child { margin-top: 2px; }
+.card > :last-child { margin-bottom: 2px; }
+
+/* Pro */
+.compare { margin: 8px 0 40px; padding: 18px 20px 6px; border-radius: 24px; background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow); }
+.compare h3 { margin: 0 0 10px; font-size: 20px; font-weight: 800; }
+.compare table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: 15px; line-height: 1.6; }
+.compare th, .compare td { padding: 12px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.compare th:first-child, .compare td:first-child { width: 42%; padding-left: 0; }
+.compare thead th { color: var(--text-2); font-size: 13px; font-weight: 800; }
+.compare thead th:nth-child(3) { color: var(--pro-ink); }
+.compare th:nth-child(3), .compare td:nth-child(3) { background: var(--pro-tint); }
+.compare td:nth-child(3) { color: var(--pro-ink); font-weight: 700; }
+.compare td:first-child { font-weight: 700; }
+.compare tbody tr:last-child td { border-bottom: 0; }
+.compare > p { margin: 14px 0 12px; padding: 12px 14px; border-radius: 14px; background: var(--bg-2); color: var(--text); font-size: 15px; }
+@media (max-width: 599px) {
+  .compare { padding: 16px 14px 4px; }
+  .compare table, .compare tbody, .compare td { display: block; }
+  .compare thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .compare tbody tr { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-bottom: 10px; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+  .compare td { border: 0; padding: 4px 12px 10px; }
+  .compare td:first-child { grid-column: 1 / -1; width: auto; padding: 10px 12px 6px; }
+  .compare td:nth-child(2)::before, .compare td:nth-child(3)::before { display: block; margin-bottom: 2px; font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em; }
+  .compare td:nth-child(2)::before { content: "無料"; color: var(--text-2); }
+  .compare td:nth-child(3)::before { content: "Pro"; color: var(--pro-ink); }
+}
+.pro-sub { margin: 0 0 16px; font-size: 22px; font-weight: 800; }
+.pro-grid, .pro-extra, .upd-grid, .status-grid { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+.pro-extra { margin-top: 16px; }
+@media (min-width: 900px) {
+  .pro-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .pro-extra, .status-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+.card > p:first-child > strong:only-child { font-size: 16px; }
+
+/* 最新のアップデート */
+.upd-grid { display: block; columns: 1; column-gap: 16px; }
+@media (min-width: 900px) { .upd-grid { columns: 2; } }
+.upd { display: inline-block; width: 100%; margin: 0 0 16px; break-inside: avoid; -webkit-column-break-inside: avoid; }
+.upd > p:first-child strong { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 999px; background: var(--pro-tint); color: var(--pro-ink); font-size: 14px; }
+.foot-note { max-width: 780px; margin-top: 8px; padding: 16px 18px; border-radius: 18px; border: 1px dashed var(--line); }
+.foot-note > p { margin: 4px 0; }
+
+/* よくある質問 */
+.faq-index { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 8px; padding: 0; list-style: none; }
+.faq-index a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--card); color: var(--text); font-size: 14px; font-weight: 700; text-decoration: none; }
+.faq-index a:hover { border-color: var(--brand); color: var(--brand); }
+.faq-group { max-width: 860px; margin-top: 40px; }
+.faq-group h3 { margin: 0 0 12px; padding-left: 12px; border-left: 4px solid var(--brand); font-size: 19px; font-weight: 800; line-height: 1.45; }
+.faq-group details { margin: 0 0 10px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+.faq-group details[open] { box-shadow: var(--shadow); }
+.faq-group summary { display: flex; align-items: center; gap: 14px; min-height: 56px; padding: 12px 16px; font-weight: 700; line-height: 1.6; cursor: pointer; list-style: none; }
+.faq-group summary::-webkit-details-marker { display: none; }
+.faq-group summary::after { content: ""; flex: none; margin-left: auto; width: 9px; height: 9px; border-right: 2px solid var(--text-2); border-bottom: 2px solid var(--text-2); transform: translateY(-3px) rotate(45deg); transition: transform 0.2s; }
+.faq-group details[open] > summary::after { transform: translateY(2px) rotate(225deg); }
+.faq-group details[open] > summary { border-bottom: 1px solid var(--line); }
+.faq-group details > p, .faq-group details > ul { margin: 12px 16px; line-height: 1.85; }
+.faq-group details > ul { padding-left: 1.3em; }
+.faq-group details > ul li { margin: 6px 0; }
+.faq-group details > :last-child { margin-bottom: 16px; }
+
+/* 対応状況 */
+.status { border-top: 4px solid var(--st); }
+.status > p:first-child strong { display: inline-flex; align-items: center; padding: 3px 12px; border-radius: 999px; background: var(--st-bg); color: var(--st); font-size: 14px; line-height: 1.6; }
+.st-done { --st: var(--st-done); --st-bg: var(--st-done-bg); }
+.st-next { --st: var(--st-next); --st-bg: var(--st-next-bg); }
+.st-hold { --st: var(--st-hold); --st-bg: var(--st-hold-bg); }
+.st-no { --st: var(--st-no); --st-bg: var(--st-no-bg); }
+.sec-status + .sec-status { padding-top: 0; }
+
+/* サポート */
+.contact > ul { list-style: none; margin: 0 0 24px; padding: 0; display: grid; gap: 12px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .contact > ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.contact li { padding: 18px 20px; border: 1px solid var(--line); border-radius: 20px; background: var(--card); line-height: 1.75; }
+.contact li strong { color: var(--text); }
+.support-notes { max-width: 780px; }
+.support-notes > p { margin: 10px 0; }
+
+/* Privacy Policy */
+.policy { max-width: 820px; padding: 10px 22px 14px; border: 1px solid var(--line); border-radius: 22px; background: var(--card); font-size: 15px; line-height: 1.75; }
+.policy h3 { margin: 22px 0 6px; font-size: 18px; font-weight: 800; }
+.policy ul { padding-left: 1.2em; }
+.policy li { margin: 8px 0; }
+
+/* ===== ダウンロードの帯・フッター ===== */
+.cta-band { padding: 64px 0; background: var(--panel); text-align: center; }
+.cta-band img { display: block; width: 72px; height: 72px; margin: 0 auto 18px; border-radius: 18px; box-shadow: var(--shadow); }
+.cta-title { margin: 0 0 8px; font-size: clamp(26px, 6.6vw, 38px); font-weight: 800; line-height: 1.3; font-feature-settings: "palt"; }
+.cta-band p { margin: 0 0 20px; color: var(--text-2); }
+.cta-band p.cta-title { color: var(--text); }
+.site-footer { padding: 40px 0 56px; border-top: 1px solid var(--line); background: var(--bg); color: var(--text-2); font-size: 14px; }
+.foot-brand { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; color: var(--text); font-size: 17px; font-weight: 800; }
+.foot-brand img { width: 32px; height: 32px; border-radius: 8px; display: block; }
+.foot-nav ul { list-style: none; margin: 0 0 18px; padding: 0; display: flex; flex-wrap: wrap; gap: 0 4px; }
+.foot-nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 8px; color: var(--text-2); text-decoration: none; }
+.foot-nav a:hover { color: var(--text); text-decoration: underline; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">本文へ移動</a>
+<header class="site-header">
+  <div class="hdr-in">
+    <a class="brand" href="#bifrost" aria-label="Bifrost（ページの先頭へ）"><img src="assets/img/icon.png" width="30" height="30" alt=""><span>Bifrost</span></a>
+    <nav class="hdr-nav" aria-label="目次">
+      <ul>
+        <li><a href="#features">主な機能</a></li>
+        <li><a href="#tips">便利な操作</a></li>
+        <li><a href="#pro">Pro</a></li>
+        <li><a href="#updates">アップデート</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+        <li><a href="#requests">ご要望の状況</a></li>
+        <li><a href="#bug-status">不具合の状況</a></li>
+        <li><a href="#support">サポート</a></li>
+        <li><a href="#privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===== ヒーロー ===== -->
+<section class="hero" aria-labelledby="bifrost">
+  <div class="wrap hero-grid">
+    <p class="hero-app"><img src="assets/img/icon.png" width="112" height="112" alt="Bifrost のアイコン"><span>Bifrost</span></p>
+    <h1 id="bifrost">片手で、快適に。<br>なぞって操るブラウザ。</h1>
+    <p class="hero-lead">Bifrost（ビフレスト）は、片手で快適に操作できるジェスチャー中心の iOS 向け Web ブラウザです。</p>
+    <p class="hero-cta"><a class="btn-store" href="https://apps.apple.com/jp/app/id6772665065" rel="noopener">App Store からダウンロード</a></p>
+    <p class="hero-note">iPhone と iPad に対応（iOS 15.1 以降）。基本機能はすべて無料で使えます。</p>
+    <div class="hero-device">
+      <div class="panel">
+        <div class="phone">
+          <img src="assets/img/shot-gesture.png" width="640" height="1387" alt="ジェスチャーでタブを閉じたところ" fetchpriority="high">
+          <span class="callout c1" aria-hidden="true">急上昇ワード</span>
+          <span class="callout c2" aria-hidden="true">「タブを閉じる」の印</span>
+          <span class="callout c3" aria-hidden="true">よく使うサイトを 9 個まで</span>
+        </div>
+      </div>
+    </div>
+    <ul class="hero-points">
+      <li><b>ページの上で、なぞるだけ</b><span>戻る・進む・タブを閉じる・更新を、指の動きで</span></li>
+      <li><b>6 色のタブグループ</b><span>仕事用と私用などを使い分け</span></li>
+      <li><b>広告ブロックも無料</b><span>広告ブロック・プライベートモードも、無料のまま</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== お知らせ（最新版の要約）===== -->
+<section class="news" aria-labelledby="news-title">
+  <div class="wrap">
+    <p class="eyebrow" aria-hidden="true">News</p>
+    <h2 id="news-title">お知らせ</h2>
+    <ul class="news-list">
+      <li>
+        <time datetime="2026-11-25">2026-11-25</time>
+        <span class="pill">1.17</span>
+        <p>新着記事を加えました（はじめはオフです）。下・右・下・右となぞって、すべてのタブを閉じるジェスチャーや、ジェスチャーの触覚、右端のどこでもスクロールも加えました。<a href="#updates">最新のアップデート</a></p>
+      </li>
+      <li>
+        <time datetime="2026-11-25">2026-11-25</time>
+        <span class="pill">対応状況</span>
+        <p><a href="#requests">ご要望への対応状況</a>と<a href="#bug-status">不具合のご報告への対応状況</a>を、2026-11-25 時点の内容で載せています。</p>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== 主な機能 =====
+  ブロック（画面写真つき）とカード（画面写真なし）は同じ形の <article class="feat">。
+  - カードをブロックにする: class の「feat--card」を外し、<div class="feat-media">…</div> を足す
+    （ほかのブロックから写して、img の src・width・height・alt と figcaption を替える。番号の 01 — は自動）。
+    見出しの <span class="catch">…</span> と <ul class="checks">…</ul> は、あれば足す（無くても形は崩れない）。
+  - 画像を替える: img の src・width・height・alt を替える。枠は画像の縦横比に合う（iPhone は .phone、iPad は .tablet）。
+  - ページの先頭（ヒーロー）の画像は、ジェスチャー操作のブロックと同じ shot-gesture.png。
+-->
+<section class="sec" aria-labelledby="features">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="eyebrow" aria-hidden="true">Features</p>
+      <h2 id="features">主な機能</h2>
+      <p>ジェスチャー・タブグループ・いつものサイト・新着記事・広告ブロック・プライベートモードなど、Bifrost の主な機能です。</p>
+    </div>
+
+    <div class="feats">
+
+      <article class="feat" id="ジェスチャー操作">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>ジェスチャー操作</span><span class="catch">なぞるだけで、<br>戻る・閉じる・更新。</span></h3>
+          <p>ページの上で指を L 字に動かすだけで、戻る・進む・タブを閉じる・更新ができます。横にスワイプすると隣のタブに切り替わります。</p>
+          <div class="gesture-card">
+            <p class="gc-title">はじめの設定</p>
+            <dl>
+              <dt>↑→</dt><dd>戻る</dd>
+              <dt>↑←</dt><dd>進む</dd>
+              <dt>↓→</dt><dd>タブを閉じる</dd>
+              <dt>↓←</dt><dd>新しいタブを開く</dd>
+              <dt>↓→↑</dt><dd>閉じたタブを復元</dd>
+              <dt>↓→↓→</dt><dd>すべてのタブを閉じる</dd>
+              <dt>円</dt><dd>更新</dd>
+              <dt>円×2</dt><dd>全タブを更新</dd>
+            </dl>
+            <p class="gc-note">形ごとの動作は、設定の「操作」の「ジェスチャーの割り当て」で変えられます。↓← は、1.16 から更新した場合は、「更新」のままのことがあります。</p>
+          </div>
+          <details class="more"><summary>詳しく見る</summary>
+<p>ページの上で指を L 字に動かすだけで、戻る・進む・タブを閉じる・更新ができます。下・右・上の順になぞる（↓→↑）と、最近閉じたタブが 1 つ戻ります。下・右・下・右（L 字を 2 回続けて）となぞると、すべてのタブを閉じます。円を 1 回描くと更新、2 回描くと全タブを更新します（表示中のタブグループのタブを順に読み直します）。円は、右回りでも左回りでも、どこから描き始めてもかまいません。形ができた時点で操作の印が出て、指を離すと実行されます（印が出たときに軽く振動します。設定の「操作」の「ジェスチャーの触覚」でオフにできます）。どの形でどの操作をするかは、設定の「操作」の「ジェスチャーの割り当て」で選べます（「新しいタブを開く」「すべてのタブを閉じる」も選べます。「なし」にした形は使いません）。「ジェスチャーの感度」を高くすると、L 字・↓→↑・円が、小さな動きや速い動きでも働きます。横にスワイプすると隣のタブに切り替わります。左下から右上へ素早く斜めになぞると全画面になり、右上から左下へなぞると戻ります。画像のカルーセルなど、ページ自体が横スワイプを使う場所でも、画面の左右の端から滑らせればタブが切り替わります。全画面の斜めのなぞりと横スワイプは、設定の「操作」でオフにできます。</p>
+          </details>
+        </div>
+        <div class="feat-media">
+          <div class="panel">
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/shot-gesture.png" width="640" height="1387" alt="ジェスチャーでタブを閉じたところ" loading="lazy" decoding="async"></div>
+              <figcaption>「タブを閉じる」のジェスチャーをしたところ。形ができた時点で操作の印が出て、指を離すと実行される</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feat" id="タブグループ">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>タブグループ</span><span class="catch">6 色のグループで、<br>仕事と私用を分ける。</span></h3>
+          <p>赤・青・黄・橙・紫・緑の 6 つのグループにタブを分けて、仕事用と私用などを使い分けられます。</p>
+          <ul class="checks">
+            <li>グループの画面で、タブをドラッグして別のグループへ</li>
+            <li>ダブルタップでロックすると、閉じる操作をしても閉じない</li>
+            <li>閉じたタブは「＋」の長押しから、元のグループの元の位置へ</li>
+          </ul>
+          <details class="more"><summary>詳しく見る</summary>
+<p>赤・青・黄・橙・紫・緑の 6 つのグループにタブを分けて、仕事用と私用などを使い分けられます。グループの画面ではタブをドラッグして別のグループへ移せます。「ドラッグしてタブを閉じる」まで運べば、そのタブを閉じられます。グループの画面は、下へスワイプすると閉じます。下のタブ一覧でタブをダブルタップするとロックされ、タブ一覧で閉じる操作をしても、ジェスチャーをしても閉じなくなります。閉じたタブは、下のタブ一覧の最後の「＋」を長押しして出る「最近閉じたタブ」から選ぶと、元のグループの元の位置に戻ります。</p>
+          </details>
+        </div>
+        <div class="feat-media">
+          <div class="panel">
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/shot-groups.png" width="640" height="1387" alt="タブグループの画面" loading="lazy" decoding="async"></div>
+              <figcaption>グループの画面。6 色の段にタブを振り分ける</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feat" id="いつものサイト">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>いつものサイト</span><span class="catch">新しいタブに、<br>よく使うサイトを並べて。</span></h3>
+          <p>新しいタブを開くと、よく使うサイトを 9 個まで並べたホーム画面が出ます。</p>
+          <ul class="checks">
+            <li>長押ししたまま動かして、並べ替え</li>
+            <li>サムネイルは、開くたびに自動で更新</li>
+            <li>上部に「急上昇ワード」（非表示にもできる）</li>
+            <li>テーマは、自動・ライト・ダークから</li>
+          </ul>
+          <details class="more"><summary>詳しく見る</summary>
+<p>新しいタブを開くと、よく使うサイトを 9 個まで並べたホーム画面が出ます。長押ししたまま動かすと、並べ替えられます。サムネイルは、この画面からサイトを開くたびに自動で更新されます。上部には「急上昇ワード」として Yahoo! ニュースの主要トピックスが並びます（設定の「検索とホーム」で非表示にもできます）。起動時にこの画面を開く設定もあります。</p>
+          </details>
+        </div>
+        <div class="feat-media">
+          <div class="panel panel-duo">
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/shot-speeddial.png" width="640" height="1387" alt="いつものサイトの画面" loading="lazy" decoding="async"></div>
+              <figcaption>よく使うサイトをサムネイルで並べる</figcaption>
+            </figure>
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/shot-speeddial-dark.png" width="640" height="1387" alt="ダークテーマのいつものサイトの画面" loading="lazy" decoding="async"></div>
+              <figcaption>ダークテーマの画面。テーマは設定で、自動・ライト・ダークから選べる</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feat" id="新着記事">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>新着記事 <span class="pill">1.17</span></span><span class="catch">右へスクロールすると、<br>新しい記事が並ぶ。</span></h3>
+          <p>設定でオンにすると（はじめはオフです）、いつものサイトの画面を右へスクロールして、登録したサイトの新しい記事を読めます。</p>
+          <ul class="checks">
+            <li>タップするとそのタブで、長押しすると裏の新しいタブで開く</li>
+            <li>記事は各サイトから直接取得（開発者のサーバーは通らない）</li>
+            <li>メニューの「新着記事に追加」で、見ているサイトを登録</li>
+            <li>よく見るサイトを自動で追加することも（はじめはオフ）</li>
+          </ul>
+          <details class="more"><summary>詳しく見る</summary>
+<p>設定でオンにすると（はじめはオフです）、いつものサイトの画面を右へスクロールして、登録したサイトの新しい記事を読めます。写真に見出しを重ねたカードが並び、タップするとそのタブで、長押しすると裏の新しいタブで開きます。記事は、登録したサイトから直接取得します（開発者のサーバーは通りません）。サイトは、下の真ん中のボタンで開くメニューの「新着記事に追加」か、設定の「検索とホーム」の「新着記事」から足せます。「よく見るサイトを自動で追加」（はじめはオフ）をオンにすると、よく見るサイトも自動で足します。Pro の iCloud 同期では、登録したサイトも同期されます。使い方は、よくある質問の「<a href="#site-updates">新着記事を使うには？</a>」をご覧ください。</p>
+          </details>
+        </div>
+        <div class="feat-media">
+          <div class="panel">
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/shot-site-updates.png" width="640" height="1319" alt="いつものサイトの画面を右へスクロールして、新着記事を表示したところ" loading="lazy" decoding="async"></div>
+              <figcaption>新着記事。いつものサイトの画面を右へスクロールすると、登録したサイトの新しい記事が並ぶ</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feat" id="広告ブロック">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>広告ブロック</span><span class="catch">7 つのフィルタで、<br>広告を自動で止める。</span></h3>
+          <p>AdGuard 互換のフィルタで、広告と一部のトラッキングを自動で止めます。</p>
+          <ul class="checks">
+            <li>日本のサイト向けのフィルタを含む 7 つ。週に 1 回、自動で更新</li>
+            <li>広告ブロックを検知してページを止めるサイトにも対策</li>
+            <li>表示が崩れるサイトは「除外サイト」に登録</li>
+          </ul>
+          <details class="more"><summary>詳しく見る</summary>
+<p>AdGuard 互換のフィルタで、広告と一部のトラッキングを自動で止めます。フィルタは AdGuard のリスト 4 つ（Base / Japanese / Mobile Ads / Annoyances）と、日本のサイト向けの豆腐フィルタ・もちフィルタ、広告ブロックの検知と警告を外す EasyList の Adblock Warning Removal List の合わせて 7 つを使い、週に 1 回自動で更新されます。パス付きの規則や要素を隠す規則もそのまま使うので、広告だけを精密に止めます。広告ブロックを検知してページを止めるサイトにも対策しています。表示が崩れるサイトは「除外サイト」に登録すると、そのサイトではブロックしません。動画サイトでも広告が流れにくくなっています。</p>
+          </details>
+        </div>
+        <div class="feat-media">
+          <div class="panel">
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/adblock.png" width="640" height="1317" alt="広告ブロック除外サイトの設定画面" loading="lazy" decoding="async"></div>
+              <figcaption>設定の「広告ブロック除外サイト」。ブロックを適用しないサイトをここに登録する</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <article class="feat" id="プライベートモード">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>プライベートモード</span><span class="catch">履歴も Cookie も、<br>端末に残さない。</span></h3>
+          <p>履歴や Cookie を端末に残さずに閲覧できます。</p>
+          <ul class="checks">
+            <li>タブはメモリ上だけ。解除するか、アプリを終了すると消える</li>
+            <li>何が残って何が残らないかは、アプリ内の「プライベートモードについて」に</li>
+          </ul>
+          <details class="more"><summary>詳しく見る</summary>
+<p>履歴や Cookie を端末に残さずに閲覧できます。プライベートモードのタブはメモリ上だけにあり、モードを解除するかアプリを終了すると消えます。何が残って何が残らないかは、アプリ内の「プライベートモードについて」にまとめてあります。</p>
+          </details>
+        </div>
+        <div class="feat-media">
+          <div class="panel">
+            <figure class="shot">
+              <div class="phone"><img src="assets/img/shot-private.png" width="640" height="1387" alt="プライベートモードの画面" loading="lazy" decoding="async"></div>
+              <figcaption>プライベートモード中は配色が変わる</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+      <div class="feats-divider">
+        <p class="eyebrow" aria-hidden="true">And more</p>
+        <p class="feats-divider-title">ほかの主な機能</p>
+      </div>
+
+      <article class="feat feat--card" id="ダウンロード">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>ダウンロード</span></h3>
+          <p>ファイルは、iOS の「ファイル」App から開けます。アプリを離れている間も、転送は続きます。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>ファイルはアプリ内の Downloads フォルダに保存され、iOS の「ファイル」App から開けます。アプリを離れている間も転送は続きます。開始・進行中・完了・失敗は画面上で分かります。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="検索とページの操作">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>検索とページの操作</span></h3>
+          <p>検索候補、QR コードの読み取り、ページ内検索、戻る・進むの長押しの一覧、リンクの長押しで裏の新しいタブに開く、など。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>アドレスバーに入力すると検索候補が出ます。キーボードの上には「アドレスをコピー」「ペーストして開く」と QR コードを読み取るボタンがあり、カメラや写真の中の QR コードを読んでそのまま開けます。ページを下へスクロールすると、アドレスバーがドメインだけの細いバーになって下のボタンが隠れ、ページを広く使えます。ページ内検索は、折りたたまれた部分の中も探せます。戻る・進むボタンを長押しすると、そのタブで開いたページの一覧から選べます。読み直したページは、前に見ていた位置に戻ります。ブックマークはフォルダで整理でき、「すべて開く」で、いま見ている階層のブックマークをまとめて裏の新しいタブで開けます。閲覧履歴は、ブックマークの画面の上の「フォルダ」「履歴」の切り替えで見られます。ブックマークや履歴からサイトを開くときは、今見ているページを残して新しいタブで開きます。ブックマークは長押しすると、裏の新しいタブで開きます。リンクを長押しすると、指のそばに輪が出て、輪が閉じると今のページを離れずに裏で新しいタブに開きます。Google・Yahoo!・Bing・DuckDuckGo の検索結果では、長押しして裏で開いたリンクが、元のページの中で訪問済みの色になります。開いたタブは輪の位置からタブ一覧へ飛んで一瞬大きく表示されます。新しいタブは、今のタブのすぐ右に入ります。サイトのログインなどで開くポップアップは別の画面で開くので、X などのアカウント連携（ポップアップ方式のログイン）も使えます。下の真ん中のボタンで開くメニューからは、表示中のページを他のアプリに共有したり、Safari で開き直したりできます。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="全画面">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>全画面</span></h3>
+          <p>メニューの「全画面」か、左下から右上への素早い斜めのなぞりで、ページを画面いっぱいに表示します。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>アドレスバー・タブ一覧・下のボタン・時刻と電池を隠して、ページを画面いっぱいに表示します。下の真ん中のボタンで開くメニューの「全画面」から、または画面のどこでも左下から右上へ素早く斜めになぞると入れます。解除は、右上から左下へなぞるか、画面の一番下の端をタップして出る下のボタンのメニューの「全画面を解除」から。斜めのなぞりは、設定の「操作」でオフにできます。いつものサイトの上では全画面になりません。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="サイトのダーク表示">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>サイトのダーク表示</span></h3>
+          <p>明るいサイトを、暗い色にして表示します。見ているサイトだけにも、すべてのサイトにもできます。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>明るいサイトを、暗い色にして表示します。メニューの「ダーク表示」を押すと、見ているサイトだけが暗くなり、そのサイトが設定の「表示」の「ダークにするサイト」に登録されます（「ダーク解除」で戻ります）。設定では、サイトを指定して登録できるほか、「すべてのサイトを暗くする」をオンにして、暗くしないサイトだけを登録することもできます。もともとダークなサイトは、そのまま表示します。画像と動画は元の色で表示しますが、背景に使われた画像などは色が反転することがあります。プライベートモードでは、サイトごとの切り替えは保存しません。アプリのテーマ（自動 / ライト / ダーク）をライトかダークにすると、ダークに対応したサイトは、サイト自身のダークテーマもそれに合わせて表示します。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="ページ全体の翻訳">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>ページ全体の翻訳</span></h3>
+          <p>見ているページ全体を、端末の中で、端末の言語に翻訳します（iOS 18 以上）。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>見ているページ全体を、端末の言語に翻訳します（iOS 18 以上）。下の真ん中のボタンで開くメニューの「翻訳」を押すと訳され、「原文を表示」を押すと元に戻ります。翻訳は、Apple の翻訳の仕組みを使って、端末の中で行います。初めて使う言語では、iOS が言語データのダウンロードを確かめます。自動では訳さないので、別のページへ移ったときは、もう一度「翻訳」を押してください。プライベートモードでも使えます。訳した表示では、文中のリンクや太字などの書式が見えなくなります（「原文を表示」で戻ります）。とても長いページは、途中まで訳します。iOS 18 より前の iPhone / iPad では、メニューに「翻訳」が出ません。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="安全な接続">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>安全な接続</span></h3>
+          <p>http:// のサイトは、先に https:// で開けるか試します。暗号化されていない通信のページでは、警告を出します。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>http:// のサイトは、先に https:// で開けるか試し、開ければそちらを使います（ほかのアプリから開いたリンクは、そのままのアドレスで開きます）。暗号化されていない通信（HTTP）のページでは、アドレスバーに警告を出します。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="既定のブラウザ">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>既定のブラウザ</span></h3>
+          <p>既定のブラウザにすると、メールやメッセージなど、ほかのアプリで押したリンクが Bifrost で開きます。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>Bifrost を既定のブラウザにすると、メールやメッセージなど、ほかのアプリで押したリンクが Bifrost で開きます。既定のブラウザは、iPhone の「設定」アプリで選びます（Bifrost が自動で既定に切り替えることはありません）。アプリの設定のトップにある「既定のブラウザにする」を押すと、選び方の案内と、iPhone の設定を開くボタンが出ます。メニューの「Safari で開く」は、Bifrost を既定にしていても Safari で開きます。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="他のブラウザへのリンク">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>他のブラウザへのリンク</span></h3>
+          <p>ページの「Chrome で開く」などのリンクも、そのリンクのページを Bifrost の中で開きます。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>ページの「Chrome で開く」などのリンク（Chrome・Firefox・Edge・Brave・Safari 向け）を押すと、確認を出さずに、そのリンクのページを Bifrost の中で開きます（開く先が分からないときは、確認を出します）。開く前に確認してほしいときは、設定の「操作」の「他のブラウザへのリンク」で「確認する」を選べます。X・YouTube・メールなど、ほかのアプリへのリンクの動きは変わりません。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--card" id="カスタマイズ">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>カスタマイズ</span></h3>
+          <p>テーマ、タブの高さと幅、ジェスチャー、新しいタブで開くページなどを、5 つのカテゴリの設定で選べます。</p>
+          <details class="more"><summary>詳しく見る</summary>
+<p>テーマ（自動 / ライト / ダーク）、サイトのダーク表示、タブの高さと幅、ホームページ、新しいタブで開くページ、タブを閉じたあとに開くタブ、急上昇ワードの表示、スクロールバーの表示、下へスクロールしたときにバーを小さくするか、ジェスチャーの割り当てと感度と触覚、全画面の斜めのなぞりと横スワイプのオン・オフ、タブを下に引いたとき・上に弾いたときの動作、他のブラウザへのリンクの扱い、右端のどこでもスクロール、新着記事、ポップアップの開き方を設定できます。設定は「検索とホーム」「表示」「操作」「プライバシーと広告」「詳細」の 5 つのカテゴリに分かれています。</p>
+          </details>
+        </div>
+      </article>
+
+      <article class="feat feat--wide" id="ipad">
+        <div class="feat-body">
+          <h3 class="feat-head"><span class="feat-name"><span class="feat-no" aria-hidden="true"></span>iPad</span><span class="catch">iPhone でも、<br>iPad でも。</span></h3>
+<p>iPad でも使えます。広い画面に合わせてタブ一覧に多くのタブが並び、サイトはパソコン向けの表示で開きます。</p>
+          <p>iPhone と iPad に対応（iOS 15.1 以降）。</p>
+        </div>
+        <div class="feat-media">
+          <div class="panel panel-wrap">
+            <figure class="shot">
+              <div class="tablet"><img src="assets/img/shot-ipad-speeddial.png" width="900" height="1200" alt="iPad のいつものサイトの画面" loading="lazy" decoding="async"></div>
+              <figcaption>iPad のいつものサイト（ダークテーマ）</figcaption>
+            </figure>
+            <figure class="shot">
+              <div class="tablet"><img src="assets/img/shot-ipad-groups.png" width="900" height="1200" alt="iPad のタブグループの画面" loading="lazy" decoding="async"></div>
+              <figcaption>iPad のタブグループ</figcaption>
+            </figure>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ===== 便利な操作（本文はそのまま）===== -->
+<section class="sec sec-alt" aria-labelledby="tips">
+  <div class="wrap">
+<!-- verbatim:tips -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">Tips</p>
+<h2 id="tips">便利な操作</h2>
+<p>知っていると便利な操作を、画面の場所ごとにまとめました。</p>
+</div>
+<div class="tip-grid" data-w>
+<div class="card tip" data-w>
+<h3 id="ページ">ページ</h3>
+<ul>
+  <li><strong>下へスクロールでバーを小さく</strong>: ページを下へスクロールして指を離すと、アドレスバーがドメインだけの細いバーになり、下のボタンが隠れます。上へスクロールする・ページの先頭に着く・細いバーをタップする、のどれかで元に戻ります。設定の「表示」の「下へスクロールしたら小さくする」でオフにできます。</li>
+  <li><strong>右端のスクロールバー</strong>: ページをスクロールすると、画面の右端にバーが出ます。バーをつかんで上下に動かすと、長いページでも一気に目的の位置まで移動できます。バーの色は、ページの背景に合わせて濃淡が変わります。設定の「表示」でオフにすると、iOS 標準のスクロールバーになります。ページの中の枠だけがスクロールするサイトでは出ません。設定の「表示」の「右端のどこでもスクロール」をオンにすると（はじめはオフ）、画面の右端のどこを上下になぞっても、ページを動かせます。</li>
+  <li><strong>リンクの長押し</strong>: 指のそばに青い輪が出て、輪が閉じると裏の新しいタブで開きます。輪が閉じる前に指を離せば開きません。Google・Yahoo!・Bing・DuckDuckGo の検索結果では、開いたリンクが、元のページの中で訪問済みの色になります。</li>
+  <li><strong>画像の長押し</strong>: リンクの付いていない画像なら、「画像を保存」（「写真」に保存）と「画像URLをコピー」が出ます。リンクの付いた画像は、文字のリンクと同じく、長押しで裏の新しいタブに開きます。</li>
+  <li><strong>ページ内検索</strong>: メニューの「ページ内検索」で、見つかった数と今の位置（例: 3/12）が出ます。上下の矢印で前後の場所へ、キーボードの「検索」キーで次の場所へ移ります。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="画面下のタブ一覧">画面下のタブ一覧</h3>
+<ul>
+  <li><strong>表示中のタブ</strong>: タブグループの色の矢印が付きます。</li>
+  <li><strong>下に引いて閉じる</strong>: タブを下に引くと灰色の矢印が出て、さらに引くと赤い × に変わります。赤いうちに指を離すと、タブが閉じます。上に戻してから離せば閉じません（設定の「操作」の「タブを下に引いたとき」で、「何もしない」にもできます）。</li>
+  <li><strong>上に弾く</strong>: タブを上へ動かして離すと、タブグループの画面が開きます（青い印が出たところで指を離すと開きます。バージョン 1.17 から、はじめの設定です）。設定の「操作」の「タブを上に弾いたとき」を「閉じる」にすると、上へ動かして閉じます（灰色の矢印が赤い × に変わったところで指を離すと閉じます）。「何もしない」にもできます。下に引くと、iPhone の簡易アクセスが画面を下へ動かすことがあります。気になるときは、「タブを下に引いたとき」を「何もしない」、「タブを上に弾いたとき」を「閉じる」にするか、iPhone の「設定」アプリ → アクセシビリティ → タッチ → 簡易アクセス をオフにしてください。</li>
+  <li><strong>ダブルタップでロック</strong>: タブの右上の角に、グループの色の三角と白いピンの印が付きます。ロックしたタブは、引いても弾いても、ジェスチャーでも、「すべて閉じる」やグループの画面の × でも閉じません。もう一度ダブルタップすると解除されます。</li>
+  <li><strong>長押しで別のグループへ</strong>: タブを長押しすると、グループの画面が開きます。指を離さずに動かし、移したい色の段で離すと、そのグループへ移ります（長押しが決まる前に指を動かすと、下に引く・上に弾く操作になります。グループの画面が開くまで、指を動かさずに押さえてください）。</li>
+  <li><strong>すべて閉じる・新しいタブ</strong>: タブの並びの左にある丸に × のボタンで、今のグループのタブをまとめて閉じます（ロックしたタブは残ります）。タブの並びの最後にある「＋」で、新しいタブを開きます（開くページは、設定の「検索とホーム」の「新しいタブで開くページ」で、「いつものサイト」か好きなサイトから選べます）。</li>
+  <li><strong>「＋」の長押しで閉じたタブを戻す</strong>: タブの並びの最後にある「＋」を長押しすると、「最近閉じたタブ」の一覧が開きます（新しい順に最大 10 件）。行をタップすると、そのタブが、元のグループの元の位置に、戻る・進むの履歴ごと戻ります（行の左端の色が、元のグループの色です）。下・右・上の順になぞるジェスチャーでも、いちばん新しく閉じたタブが戻ります。一覧はアプリを終了すると空になり、プライベートモードでは閉じたタブを残しません。</li>
+  <li><strong>タブの大きさ</strong>: 設定の「表示」の「タブの高さ」と「タブの幅」で、それぞれ小 / 標準 / 大から選べます。幅を小さくすると、画面にたくさんのタブが並びます。タブグループの画面のタブも、同じ大きさになります。</li>
+  <li><strong>新しいタブの位置</strong>: 新しいタブは、今のタブのすぐ右に入ります。今のタブを表示したまま続けて裏で開いたタブは、開いた順に右へ並びます。</li>
+  <li><strong>一番右のタブからさらに左へ</strong>: サイトを表示している一番右のタブで左へスワイプすると、右隣に新しいタブが開きます（はじめは「いつものサイト」。設定の「検索とホーム」で、好きなサイトにもできます）。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="タブグループの画面">タブグループの画面</h3>
+<ul>
+  <li>下のボタンの一番右（重なった四角）で開きます。タブをタップすると、そのグループのそのタブに切り替わります。下へスワイプするか、「完了」で閉じます。</li>
+  <li>各段の最後の「＋」で、そのグループに新しいタブを開きます。各段の一番左のタブの左隣にある × で、そのグループのタブをすべて閉じます（ロックしたタブは残ります。タブが 1 つも無い段には × は出ません）。</li>
+  <li>タブをドラッグして、画面下の「ドラッグしてタブを閉じる」で指を離すと、そのタブを閉じます（ロックしたタブは閉じません）。</li>
+  <li>タブの大きさは、画面下のタブ一覧と同じです（設定の「表示」の「タブの高さ」「タブの幅」）。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="アドレスバー">アドレスバー</h3>
+<ul>
+  <li>タップすると、アドレス全体が選ばれた状態になります。そのまま入力すれば置き換わります。</li>
+  <li>サイトを表示しているときにアドレスバーから開くと、今のページを残して新しいタブで開きます。いつものサイトのタブからなら、そのタブで開きます。</li>
+  <li>入力中はページの部分が暗くなり、そこをタップすると入力をやめます。下のタブ一覧とボタンは、入力中も使えます。</li>
+  <li>http:// のページでは、アドレスの左にオレンジの警告アイコンが出ます。タップすると、説明と「HTTPS で開き直す」が出ます。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="下のボタンとメニュー">下のボタンとメニュー</h3>
+<ul>
+  <li><strong>ボタンの並び</strong>: 左から、戻る・進む・メニュー（共有の形のアイコン）・ブックマークと履歴（本の形）・タブグループの画面（重なった四角）です。</li>
+  <li><strong>戻る・進むの長押し</strong>: そのタブで開いたページの一覧が出て、いくつか前のページへ一度に戻れます。</li>
+  <li><strong>ホーム</strong>: メニューの「ホーム」で、設定の「ホームページ」に登録したページ（はじめは Yahoo! JAPAN）を開きます。いつものサイトの検索窓の左にある家のアイコンも同じです。</li>
+  <li><strong>全画面</strong>: メニューの「全画面」で、アドレスバー・タブ一覧・下のボタン・時刻と電池が隠れて、ページが画面いっぱいになります。画面のどこでも、左下から右上へ素早く斜めになぞっても入れます（設定の「操作」の「全画面」でオフにできます）。解除は、右上から左下へなぞるか、画面の一番下の端をタップして出る下のボタンのメニューの「全画面を解除」から。いつものサイトの上では全画面になりません。</li>
+  <li><strong>ダーク表示</strong>: メニューの「ダーク表示」で、見ているサイトを暗い色にします。押すと、そのサイトが設定の「表示」の「ダークにするサイト」に登録され、「ダーク解除」で外れます。プライベートモードでは、サイトごとの切り替えは保存しません。</li>
+  <li><strong>翻訳</strong>: iOS 18 以上では、メニューの「翻訳」で、表示中のページ全体を端末の言語に訳します。「原文を表示」で元に戻ります。</li>
+  <li><strong>メニューのボタンの印</strong>: ダウンロード中は、青い丸に件数が付きます。終わったダウンロードをまだ見ていないときは、赤い丸が付きます。</li>
+  <li><strong>登録済みのブックマーク</strong>: 登録したページでは、メニューの星が塗られて「ブックマーク済」になります。押すと登録を外せます。</li>
+  <li><strong>プライベートモードのお知らせ</strong>: 切り替えた直後に出るお知らせをタップすると、何が残って何が残らないかの説明が開きます。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="いつものサイト-1">いつものサイト</h3>
+<ul>
+  <li>空き枠の「＋」をタップすると、登録の画面が開きます。開いているタブや、よく見るページから選べます。タイトルとアドレスを入力して登録することもできます。</li>
+  <li>登録したサイトを長押ししたまま動かすと、並べ替えられます。動かさずに離すと、「編集」と「削除」が出ます。</li>
+  <li>急上昇ワードの見出しをタップすると、その記事が開きます。Pro で X のトレンドにしているときは、X の検索結果が開きます。</li>
+  <li>急上昇ワードは、設定の「検索とホーム」の「急上昇ワードを表示」をオフにすると、非表示になります。</li>
+  <li>設定の「検索とホーム」の「新着記事」で「新着記事を表示」をオンにすると（はじめはオフ）、画面を右へスクロールして、登録したサイトの新しい記事が読めます。カードをタップするとそのタブで、長押しすると裏の新しいタブで開きます（開いた記事は薄く表示されます）。いちばん右の歯車の列から、新着記事の設定を開けます。</li>
+  <li>新着記事を表示しているとき、いつものサイトでタブを切り替える横のスワイプは、画面の左右の端と検索バーのあたりから始めます（格子のあたりで始めた横のスワイプは、新着記事の横スクロールになります）。</li>
+  <li>サイトは、Web ページを見ているときに、下の真ん中のボタンで開くメニューの「新着記事に追加」で足せます。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="ブックマークと履歴">ブックマークと履歴</h3>
+<ul>
+  <li>下のボタンの本の形で開きます。上の「フォルダ」「履歴」で、ブックマークと閲覧履歴を切り替えます（バージョン 1.16 から。それまでは、履歴はメニューの「履歴」から開いていました）。フォルダの中でも、下へスワイプすると閉じます（編集中を除く）。</li>
+  <li>ブックマークを左へスワイプすると「削除」が出ます。長押しすると、今のページを表示したまま、裏の新しいタブで開きます（一覧は開いたままなので、続けて開けます）。フォルダを長押しすると、名前の変更と削除ができます。</li>
+  <li>下のバーの「すべて開く」で、いま見ている階層のブックマークを、一覧と同じ順に、まとめて裏の新しいタブで開きます（その中のフォルダの中身は開きません。11 件以上のときは、開く前に確かめます）。開いたあと、ブックマークの画面は自動で閉じます（バージョン 1.17 から）。</li>
+  <li>「編集」では、右端のつまみ（≡）をドラッグして並べ替えられます。項目をタップすると、名前・URL・入れるフォルダを変えられます。</li>
+  <li>履歴は「今日」「昨日」と日付ごとに並びます。左上の「消去」で、すべての履歴を削除できます。履歴の検索は Pro の機能です。</li>
+  <li>Pro では、ブックマークのトップの一覧の一番下にある小さな「他のブラウザのブックマークを取り込む」から、Safari・Chrome・Firefox・Edge が書き出したブックマークを取り込めます。</li>
+</ul>
+</div>
+<div class="card tip" data-w>
+<h3 id="ダウンロード-1">ダウンロード</h3>
+<ul>
+  <li>メニューの「ダウンロード」の一覧で、完了した行をタップすると共有シートが開き、他のアプリで開いたり保存したりできます。失敗した行やキャンセルした行は、タップでやり直せます。左へスワイプすると削除（ダウンロード中ならキャンセル）です。</li>
+  <li>画面の上に出るお知らせ（開始・完了・失敗）は、タップすると一覧が開き、下へスワイプすると消えます。</li>
+</ul>
+</div>
+</div>
+<!-- /verbatim:tips -->
+  </div>
+</section>
+
+<!-- ===== Bifrost Pro（本文はそのまま）===== -->
+<section class="sec" aria-labelledby="pro">
+  <div class="wrap">
+<!-- verbatim:pro -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">Pro</p>
+<h2 id="pro">Bifrost Pro</h2>
+<p>アプリ内で Bifrost Pro（買い切り）を購入すると、次の機能が使えます。価格は App Store に表示されます。1 回限りの買い切りで、月額などの継続課金はありません。</p>
+</div>
+<div class="compare" data-w>
+<h3 id="無料版との違い">無料版との違い</h3>
+<table>
+  <thead>
+    <tr>
+      <th>機能</th>
+      <th>無料</th>
+      <th>Pro</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>検索エンジン</td>
+      <td>Yahoo! JAPAN</td>
+      <td>Yahoo! JAPAN / Google</td>
+    </tr>
+    <tr>
+      <td>同時に保持するタブ数</td>
+      <td>8</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <td>「いつものサイト」のトレンド</td>
+      <td>Yahoo!</td>
+      <td>Yahoo! / X</td>
+    </tr>
+    <tr>
+      <td>ブックマークのインポート（Safari など）</td>
+      <td>—</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>iCloud 同期（ブックマーク・いつものサイト・新着記事のサイト）</td>
+      <td>—</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>ページ全体を PDF・画像で保存</td>
+      <td>—</td>
+      <td>✓</td>
+    </tr>
+    <tr>
+      <td>閲覧履歴</td>
+      <td>直近 500 件</td>
+      <td>最大 2 万件。検索できる。保存期間は 3 か月 / 1 年 / 無期限</td>
+    </tr>
+    <tr>
+      <td>動画・音声のバックグラウンド再生とロック画面の操作</td>
+      <td>—</td>
+      <td>✓</td>
+    </tr>
+  </tbody>
+</table>
+<p>広告ブロック・タブグループ・プライベートモード・ジェスチャー操作など、この表にない機能は無料のまま、すべて使えます。</p>
+</div>
+<div class="pro-can" data-w>
+<h3 id="pro-でできること">Pro でできること</h3>
+<div class="pro-grid" data-w>
+<div class="card" data-w>
+<p><strong>検索とホーム</strong></p>
+<ul>
+  <li>検索エンジンを Yahoo! JAPAN と Google から選べます（アドレスバーの検索と、いつものサイトの検索窓の両方）。</li>
+  <li>いつものサイトの上部に並ぶ見出しを、Yahoo! ニュースの主要トピックスから X のトレンドに切り替えられます。</li>
+</ul>
+</div>
+<div class="card" data-w>
+<p><strong>タブ</strong></p>
+<ul>
+  <li>同時に保持するタブ数が 8 から 15 に増えます。タブを切り替えたときの読み直しが減り、入力中のフォームやスクロール位置が残りやすくなります。</li>
+</ul>
+</div>
+<div class="card" data-w>
+<p><strong>ブックマークと履歴</strong></p>
+<ul>
+  <li>Safari や Chrome、Firefox などから書き出したブックマーク（ZIP または HTML）を取り込めます。トップに並べるか、1 つのフォルダにまとめるかを選べます。設定の「詳細」の「Safari などのブックマークを取り込む」か、ブックマークのトップの一覧の一番下にある「他のブラウザのブックマークを取り込む」から始めます。</li>
+  <li>閲覧履歴を検索できます。タイトルと URL に対して、空白で区切った語をすべて含むものを探します。全角と半角の違いは気にしなくて構いません。</li>
+  <li>履歴を最大 2 万件まで残せます。保存期間は 3 か月 / 1 年 / 無期限から選べます。無期限でも、2 万件を超えると古いものから消えます（無料版は直近 500 件）。</li>
+</ul>
+</div>
+<div class="card" data-w>
+<p><strong>iCloud 同期</strong></p>
+<ul>
+  <li>ブックマーク（フォルダと並びを含む）・「いつものサイト」・新着記事のサイト（バージョン 1.17 から）を、同じ Apple Account の iPhone / iPad で同期します。設定の「iCloud 同期」でオンにします。iCloud にサインインしている必要があります。</li>
+  <li>同期しないものは、設定・履歴・タブ・Cookie、「いつものサイト」のサムネイル、新着記事の記事と、自動で追加したサイトです。ほかの端末では、そのサイトを開くとサムネイルが撮られ、それまでは仮の表示になります。プライベートモード中に追加・変更したブックマーク・「いつものサイト」・新着記事のサイトは、同期されます。</li>
+  <li>データは、Apple の iCloud のあなたの個人用の領域にだけ保存されます。開発者のサーバーには送らず、開発者は中身を見られません。</li>
+  <li>同期済みのものを一度にまとめて消したときは、同期を止めて、iCloud にも反映するか、iCloud の内容に戻すかを選んでもらいます。</li>
+  <li>オフにしても、この端末と iCloud のデータは残ります。iCloud に保存した分は、設定の「iCloud のデータを削除」で消せます。Pro が切れたときも、同期が止まるだけで、データは残ります。</li>
+</ul>
+</div>
+<div class="card" data-w>
+<p><strong>ページの保存</strong></p>
+<ul>
+  <li>表示中のページ全体を、1 枚の縦長の PDF か画像で保存できます。PDF はダウンロード一覧に入り、「ファイル」App からも開けます。画像は写真に保存されます。表示中の画面だけを画像にすることもできます。</li>
+</ul>
+</div>
+<div class="card" data-w>
+<p><strong>動画</strong></p>
+<ul>
+  <li>ページ内の動画や音声を、画面を消しても、他のアプリに切り替えても再生し続けられます。ロック画面から再生と一時停止ができます。設定の「操作」→「動画」でオフにできます。</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="pro-extra" data-w>
+<div class="card" data-w>
+<h3 id="今後追加予定">今後追加予定</h3>
+<p>次の機能を Pro に追加する予定です。時期や内容は変わることがあります。</p>
+<ul>
+  <li>「いつものサイト」の枠数の拡張</li>
+  <li>ブックマーク・履歴のエクスポート</li>
+  <li>広告ブロックのカスタムフィルタリストの追加</li>
+</ul>
+</div>
+<div class="card" data-w>
+<h3 id="購入の復元">購入の復元</h3>
+<p>買い直しは不要です。新しい端末や再インストールの後は、設定の「Bifrost Pro」にある「購入を復元」で戻せます（購入したときと同じ Apple アカウントでサインインしている必要があります）。</p>
+</div>
+</div>
+<!-- /verbatim:pro -->
+  </div>
+</section>
+
+<aside class="cta-band" aria-label="ダウンロード">
+  <div class="wrap">
+    <img src="assets/img/icon.png" width="112" height="112" alt="" loading="lazy" decoding="async">
+    <p class="cta-title">基本機能は、すべて無料。</p>
+    <p>iPhone と iPad に対応（iOS 15.1 以降）。</p>
+    <a class="btn-store" href="https://apps.apple.com/jp/app/id6772665065" rel="noopener">App Store からダウンロード</a>
+  </div>
+</aside>
+
+<!-- ===== 最新のアップデート（本文はそのまま）===== -->
+<section class="sec sec-alt" aria-labelledby="updates">
+  <div class="wrap">
+<!-- verbatim:updates -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">What's new</p>
+<h2 id="updates">最新のアップデート（バージョン 1.17、<span class="nw" data-w>2026-11-25</span>）</h2>
+</div>
+<div class="upd-grid" data-w>
+<div class="card upd" data-w>
+<p><strong>ご要望にお応えした機能</strong></p>
+<ul>
+  <li>新着記事を加えました。はじめはオフです。使いたいときに、設定の「検索とホーム」の「新着記事」を開いて、「新着記事を表示」をオンにしてください。オンにすると、いつものサイトの画面を右へスクロールして、登録したサイトの新しい記事が読めます。記事は各サイトから直接取得します。くわしくは、下の「新着記事」と、よくある質問の「<a href="#site-updates">新着記事を使うには？</a>」をご覧ください</li>
+  <li>ジェスチャーを増やしました。下・右・下・右（L 字を 2 回続けて）となぞると、すべてのタブを閉じます。閉じたタブは、下のタブ一覧の「＋」の長押しや、下・右・上の順になぞる（↓→↑）ジェスチャーで戻せます</li>
+  <li>ジェスチャーの割り当て（設定の「操作」の「ジェスチャーの割り当て」）で選べる動作に、「新しいタブを開く」と「すべてのタブを閉じる」を加えました</li>
+  <li>ジェスチャーの印が出たときに、軽く振動して知らせるようにしました。設定の「操作」の「ジェスチャーの触覚」でオフにできます</li>
+  <li>設定の「表示」の「スクロールバー」に「右端のどこでもスクロール」を加えました。スクロールバーを表示しているときに選べて、はじめはオフです。オンにすると、画面の右端のどこを上下になぞっても、ページを動かせます</li>
+  <li>ブックマークの「すべて開く」を押したあと、ブックマークの画面が自動で閉じるようにしました</li>
+</ul>
+</div>
+<div class="card upd" data-w>
+<p><strong>新着記事</strong></p>
+<ul>
+  <li>いつものサイトの画面を右へスクロールすると、登録したサイトの新しい記事が、写真に見出しを重ねたカードで並びます（20 件まで）。カードをタップするとそのタブで、長押しすると裏の新しいタブで開きます。開いた記事は薄く表示されます</li>
+  <li>新着記事を表示しているときは、いつものサイトでタブを切り替える横のスワイプを、画面の左右の端と検索バーのあたりから始めます。格子のあたりで始めた横のスワイプは、新着記事の横スクロールになります</li>
+  <li>サイトは、下の真ん中のボタンで開くメニューの「新着記事に追加」（Web ページを見ているとき）か、設定の「新着記事」から足せます。「よく見るサイトを自動で追加」（はじめはオフ）をオンにすると、よく見るサイトも自動で足します（くわしくは、<a href="#auto-add">「よく見るサイトを自動で追加」の説明</a>）。記事の並びも、設定で選べます</li>
+  <li>Pro の iCloud 同期で、新着記事のサイトも、同じ Apple Account の iPhone / iPad に同期されます（新着記事の記事と、自動で追加したサイトは同期しません）</li>
+</ul>
+</div>
+<div class="card upd" data-w>
+<p><strong>他のブラウザへのリンク</strong></p>
+<ul>
+  <li>ページの「Chrome で開く」などのリンク（Chrome・Firefox・Edge・Brave・Safari 向け）を押すと、確認を出さずに、そのリンクのページを Bifrost の中で開くようにしました。開く前に確認してほしいときは、設定の「操作」の「他のブラウザへのリンク」で「確認する」を選べます</li>
+</ul>
+</div>
+<div class="card upd" data-w>
+<p><strong>タブ・タブグループ</strong></p>
+<ul>
+  <li>下のタブ一覧のタブを上に弾くと、タブグループの画面が開くようになりました（これまでは何も起きませんでした）。設定の「操作」の「下のタブを閉じる向き」は、「タブを下に引いたとき」（閉じる・何もしない）と「タブを上に弾いたとき」（タブグループを表示・閉じる・何もしない）の 2 つになりました。これまで「上に弾く」「どちらも」を選んでいた場合は、上に弾くと今までどおり閉じます</li>
+</ul>
+</div>
+<div class="card upd" data-w>
+<p><strong>不具合の修正</strong></p>
+<p>次のような問題を直しました。</p>
+<ul>
+  <li>ダウンロードになるリンクを開いたタブが、閉じられなくなる。見るたびにダウンロードが始まる</li>
+  <li>pixiv など、画像を保存できないサイトがある</li>
+  <li>サイトのダーク表示で、読み込み中や更新の直後に、白い画面が出る。エラーのページや、http の注意のページが、ダークにならない</li>
+  <li>「タブを閉じる」のジェスチャー（下から右）で、横を長く引くと、閉じずに隣のタブへ切り替わる</li>
+  <li>Google のフォームなどで、「このブラウザ バージョンのサポートは終了しました」と出る</li>
+  <li>「Safari で開く」が、http のページで開けないことがある</li>
+  <li>東スポ WEB で、「広告表示をお願いいたします」の画面が出たあと、閉じられず、スクロールもできなくなる</li>
+  <li>画面の端から隣のタブへスワイプしたとき、元のタブでスワイプを始めたところにあったリンクが、別のタブで開くことがある</li>
+  <li>設定の長い項目名（「ブックマークといつものサイトを同期」など）が、スイッチと重なって読めないことがある</li>
+</ul>
+</div>
+</div>
+<div class="foot-note" data-w>
+<p>ご要望や不具合は、設定の「要望・不具合を送る」から匿名で送れます。</p>
+<p>App Store の<a href="https://apps.apple.com/jp/app/id6772665065?action=write-review" rel="noopener">評価・レビュー</a>もお待ちしています。</p>
+</div>
+<!-- /verbatim:updates -->
+  </div>
+</section>
+
+<!-- ===== よくある質問（本文はそのまま）===== -->
+<section class="sec" aria-labelledby="faq">
+  <div class="wrap">
+<!-- verbatim:faq -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">FAQ</p>
+<h2 id="faq">よくある質問</h2>
+</div>
+<nav class="faq-index-nav" data-deco aria-label="質問のジャンル">
+<ul class="faq-index">
+<li><a href="#操作とジェスチャー">操作とジェスチャー</a></li>
+<li><a href="#機能の使い方">機能の使い方</a></li>
+<li><a href="#表示と広告ブロック">表示と広告ブロック</a></li>
+<li><a href="#データと引き継ぎ">データと引き継ぎ</a></li>
+<li><a href="#bifrost-pro-と-icloud-同期">Bifrost Pro と iCloud 同期</a></li>
+<li><a href="#新着記事-1">新着記事</a></li>
+<li><a href="#プライバシーとサポート">プライバシーとサポート</a></li>
+</ul>
+</nav>
+<div class="faq-group" data-w>
+<h3 id="操作とジェスチャー">操作とジェスチャー</h3>
+<details>
+<summary>Q. ジェスチャーはどう操作しますか？</summary>
+<p>A. ページの上で指を L 字に動かします。はじめの設定では、上に動かしてから右で「戻る」、上から左で「進む」、下から右で「タブを閉じる」、下から左で「新しいタブを開く」です（バージョン 1.16 までは「更新」でした。1.16 から更新した場合は、「更新」のままのことがあります）。下・右・上の順になぞると「閉じたタブを復元」、下・右・下・右（L 字を 2 回続けて）となぞると「すべてのタブを閉じる」、円を 1 回描くと「更新」、2 回描くと「全タブを更新」です（円は、右回りでも左回りでも、どこから描き始めてもかまいません）。形ができた時点で操作の印が出て（軽く振動します。設定の「操作」の「ジェスチャーの触覚」でオフにできます）、指を離すと実行されます。形ごとの動作は、設定の「操作」の「ジェスチャーの割り当て」で変えられます（「新しいタブを開く」「すべてのタブを閉じる」も選べます）。横にまっすぐ動かすと隣のタブに切り替わります。左下から右上へ素早く斜めになぞると全画面になり、右上から左下へなぞると戻ります（設定の「操作」でオフにできます）。</p>
+</details>
+<details id="gesture-trouble">
+<summary>Q. ジェスチャー（円など）が効きません。</summary>
+<p>A. 設定の「操作」の「ジェスチャーの割り当て」で、その形が「なし」になっていないか確かめてください。バージョン 1.15 の設定で「戻る・進む」「タブを閉じる」「更新」のジェスチャーをオフにしていた場合、バージョン 1.16 では、その動作をする形が「なし」に変わっています（「更新」をオフにしていたなら ↓←・円・円×2、「タブを閉じる」なら ↓→・↓→↑、「戻る・進む」なら ↑→・↑←）。使いたい形の動作を選び直すか、「初期設定に戻す」を押してください。小さな動きや速い動きで働かないときは、「ジェスチャーの感度」を高くしてください。反対に、普通のスクロールで勝手に働くときは、感度を低くするか、その形を「なし」にしてください。いつものサイトの上で働くのは、「タブを閉じる」「閉じたタブを復元」「全タブを更新」の動作だけです。「閉じたタブを復元」は、戻せるタブが無いときは何も起きません。</p>
+</details>
+<details id="tab-wont-close">
+<summary>Q. タブが閉じないことがあります。</summary>
+<p>A. 次のような場合に、閉じないことがあります。</p>
+<ul>
+<li><strong>ロックしたタブ</strong>: タブの右上に、グループの色の三角と白いピンの印があるタブは、引いても、弾いても、ジェスチャーでも、「すべて閉じる」でも閉じません。もう一度ダブルタップすると解除されます。ダブルタップで切り替わるので、意図せずロックしていることがあります。</li>
+<li><strong>下に引くと、画面全体が下へ動く</strong>: iPhone の簡易アクセスが働いています。設定の「操作」の「タブを下に引いたとき」を「何もしない」、「タブを上に弾いたとき」を「閉じる」にするか、iPhone の「設定」アプリ → アクセシビリティ → タッチ → 簡易アクセス をオフにしてください。</li>
+<li><strong>上に弾くと、タブグループの画面が開く</strong>: バージョン 1.17 から、上に弾いたときの動作は、はじめは「タブグループを表示」です。上に弾いて閉じたいときは、設定の「操作」の「タブを上に弾いたとき」を「閉じる」にしてください。</li>
+<li><strong>「タブを閉じる」のジェスチャー（下から右）</strong>: バージョン 1.16 までは、下への動きが短く、右への動きが長いと、✕ の印が出ても、離したときに隣のタブへ切り替わることがありました。バージョン 1.17 で直しました。</li>
+</ul>
+<p>どれにも当てはまらないときは、次のことを教えてください。どの操作か（下に引く・上に弾く・ジェスチャー・× ボタン）、そのタブにロックの印があるか、「タブを下に引いたとき」「タブを上に弾いたとき」の設定、簡易アクセスがオンか、閉じる動きは出たか。閉じなかった直後に、設定の「詳細」にある「診断」の「診断ログをコピー」の内容も添えてもらえると助かります（<a href="#bug-report">不具合を報告するときは、何を伝えればよいですか？</a>）。</p>
+</details>
+<details>
+<summary>Q. 横スワイプでタブが切り替わらないページがあります。</summary>
+<p>A. ページ自体が横スクロールや横スワイプを使っている場所（画像のカルーセル、ニュースのカテゴリ切り替えなど）では、ページの操作を優先してタブは切り替えません。そのときは画面の左右の端から滑らせてください。端から始めたスワイプは、どのサイトでもタブの切り替えになります（バージョン 1.11 以降）。別の場所でスワイプするか、下のタブ一覧をタップしても切り替えられます。新着記事を表示しているときは、いつものサイトの格子のあたりで始めた横のスワイプは、新着記事の横スクロールになります。タブを切り替えるときは、画面の左右の端か、検索バーのあたりから始めてください。</p>
+</details>
+<details>
+<summary>Q. ログインのときに別の画面が開きます。</summary>
+<p>A. サイトがポップアップで開くページ（X などのアカウント連携のログイン画面）は、別の画面で開きます（バージョン 1.11 以降）。多くの場合、ログインが終わると自動で閉じます。閉じないときは右上の「閉じる」を、普通のタブとして見たいときは左上の「タブで開く」を押してください。この動きは、設定の「操作」にある「ポップアップを別画面で開く」でオフにできます。</p>
+</details>
+</div>
+<div class="faq-group" data-w>
+<h3 id="機能の使い方">機能の使い方</h3>
+<details>
+<summary>Q. Bifrost を既定のブラウザにするには？</summary>
+<p>A. iPhone の「設定」アプリで、既定のブラウザに Bifrost を選びます（バージョン 1.16 以降）。Bifrost が自動で既定に切り替えることはありません。Bifrost の設定のトップにある「既定のブラウザにする」を押すと、選び方の案内と、iPhone の設定を開くボタンが出ます。最新の iOS では、「設定」→「アプリ」→「デフォルトのアプリ」→「ブラウザアプリ」で選べます（Apple のサポートページ「<a href="https://support.apple.com/ja-jp/121430" rel="noopener">iPhoneやiPadでデフォルトのアプリを変更する</a>」）。既定にすると、メールやメッセージなど、ほかのアプリで押したリンクが Bifrost で開きます。Safari などに戻すときも、同じ場所で選び直してください。</p>
+</details>
+<details id="site-updates">
+<summary>Q. 新着記事を使うには？</summary>
+<p>A. 新着記事は、はじめはオフです（バージョン 1.17 以降）。設定の「検索とホーム」の「新着記事」を開いて、「新着記事を表示」をオンにしてください。オンにすると、いつものサイトの画面を右へスクロールして、登録したサイトの新しい記事を読めます。記事は各サイトから直接取得します。オフのときは取得しません。</p>
+<p>サイトは、登録がまだ無いときの画面の案内や、設定の「新着記事」の「サイトを追加」から、いつものサイト・ブックマーク・開いているタブを選ぶか、アドレスを入力して登録できます。Web ページを見ているときは、下の真ん中のボタンで開くメニューの「新着記事に追加」でも登録できます。サイトのアドレスから新着記事の配信（RSS・Atom）を探して登録するので、配信が見つからないサイトは、登録できないことがあります。</p>
+<p>オンにすると、いつものサイトでタブを切り替える横のスワイプは、画面の左右の端と検索バーのあたりから始めます。格子のあたりで始めた横のスワイプは、新着記事の横スクロールになります。記事のカードは、タップするとそのタブで、長押しすると裏の新しいタブで開きます。</p>
+<p>「よく見るサイトを自動で追加」（はじめはオフ）と、記事の並び（新着順・サイトごと）は、同じ設定のページで選べます。自動で探す間隔は、「よく見るサイトを自動で追加」をオンにしたときに選べます。オフにしても、登録したサイトは残ります。Bifrost Pro の iCloud 同期では、登録したサイトも同期されます。</p>
+</details>
+<details id="other-browser-links">
+<summary>Q. 「Chrome で開く」などのリンクを押すと、どうなりますか？</summary>
+<p>A. バージョン 1.17 から、ページの「Chrome で開く」などのリンク（Chrome・Firefox・Edge・Brave・Safari 向け）を押すと、確認を出さずに、そのリンクのページを Bifrost の中で開きます（開く先が分からないときは、確認を出します）。開く前に確認してほしいときは、設定の「操作」の「他のブラウザへのリンク」で「確認する」を選んでください。「確認する」にすると、開く前に確認が出て、「開く」を押したときだけ、そのブラウザに切り替わります。X・YouTube・メールなど、ほかのアプリへのリンクの動きは変わりません。</p>
+</details>
+<details id="chrome-launched">
+<summary>Q. ページを戻ろうとしたら、Chrome など別のアプリが開きました。</summary>
+<p>A. 次のような場合があります。</p>
+<ul>
+<li><strong>画面の左上の、元のアプリの名前のボタンを押した</strong>: 別のアプリのリンクなどから Bifrost が直接開かれると、iOS が、元のアプリに戻るための小さなボタンを、画面の左上に出すことがあります（「◀ Chrome」のように、矢印と元のアプリの名前が付きます）。これは iOS の機能で、Bifrost の「戻る」ではありません。押すと、元のアプリに切り替わります。ページを戻るときは、下のバーの「戻る」か、ジェスチャーを使ってください。</li>
+<li><strong>ページのリンクが、ほかのブラウザを開こうとした</strong>: バージョン 1.17 から、ページが Chrome・Firefox・Edge・Brave・Safari のリンクを開こうとしたときは、そのリンクのページを Bifrost の中で開きます（設定の「操作」の「他のブラウザへのリンク」で、開く前に確認を出すこともできます）。</li>
+</ul>
+<p>どちらにも当てはまらないときは、開いたアプリの名前と、直前に押したもの（ページのリンク・下のバーの「戻る」・画面の左上のボタンなど）を教えてください（<a href="#bug-report">不具合を報告するときは、何を伝えればよいですか？</a>）。</p>
+</details>
+<details>
+<summary>Q. ページを翻訳するには？</summary>
+<p>A. iOS 18 以上の端末で、下の真ん中のボタンで開くメニューの「翻訳」を押します（バージョン 1.16 以降）。表示中のページ全体が端末の言語に訳され、「原文を表示」で元に戻ります。初めて使う言語では、iOS が言語データのダウンロードを確かめます。自動では訳さないので、別のページへ移ったときは、もう一度「翻訳」を押してください。iOS 18 より前の端末では、メニューに「翻訳」が出ません。</p>
+</details>
+<details>
+<summary>Q. 閲覧履歴はどこで見られますか？</summary>
+<p>A. 下のボタンの本の形でブックマークの画面を開き、上の「フォルダ」「履歴」の切り替えで「履歴」を選びます（バージョン 1.16 で、メニューの「履歴」からここへ移りました）。最後に選んだ側は、アプリを起動している間は覚えています。履歴は「今日」「昨日」と日付ごとに並びます。履歴の検索は Bifrost Pro の機能です。</p>
+</details>
+<details>
+<summary>Q. ダウンロードしたファイルはどこにありますか？</summary>
+<p>A. iOS の「ファイル」App &gt; このiPhone内 &gt; Bifrost &gt; Downloads で閲覧できます。</p>
+</details>
+</div>
+<div class="faq-group" data-w>
+<h3 id="表示と広告ブロック">表示と広告ブロック</h3>
+<details>
+<summary>Q. 広告が消えないサイトや、表示が崩れるサイトがあります。</summary>
+<p>A. 広告ブロックはフィルタに載っている配信元を止める仕組みなので、載っていない広告は残ることがあります。表示が崩れるサイトは、設定の「広告ブロック除外サイト」にドメインを登録すると、そのサイトではブロックしません。サブドメインも自動で対象になります。</p>
+</details>
+<details>
+<summary>Q. ダーク表示にしても、暗くならない部分があります。</summary>
+<p>A. ダーク表示は、サイトの色を反転して暗く見せる機能です。画像と動画は元の色のまま表示しますが、背景に使われた画像などは、色が反転することがあります。うまく表示できないサイトは、メニューの「ダーク解除」で戻してください。もともとダークなサイトは、そのまま表示します。</p>
+</details>
+</div>
+<div class="faq-group" data-w>
+<h3 id="データと引き継ぎ">データと引き継ぎ</h3>
+<details>
+<summary>Q. ブックマークや「いつものサイト」のデータは消えますか？</summary>
+<p>A. アプリのアップデートでは保持されます。アプリを削除すると端末から消えます。Bifrost Pro の iCloud 同期をオンにしていた場合は、iCloud に残り、アプリを入れ直して同期をオンにすると戻ります（「いつものサイト」のサムネイルは、そのサイトを開くと撮り直されます）。</p>
+</details>
+<details>
+<summary>Q. 新しい iPhone に買い替えたとき、データは引き継げますか？</summary>
+<p>A. ブックマーク、いつものサイト、設定、ダウンロードしたファイルはアプリの中に保存されているので、iOS のバックアップ（iCloud バックアップやクイックスタート）で新しい端末に移ります。Bifrost Pro をお使いなら、設定の「iCloud 同期」で、ブックマーク・「いつものサイト」・新着記事のサイトを端末の間で同期することもできます（設定・履歴・ダウンロードしたファイルは同期しません）。</p>
+</details>
+<details>
+<summary>Q. プライベートモードのデータはどうなりますか？</summary>
+<p>A. メモリ上のみで管理され、モード解除またはアプリ終了で全て消えます。ただし、ブックマークへの追加、いつものサイトへの登録、新着記事への追加、ダウンロードしたファイル、「写真」に保存した画像は、プライベートモード中でも保存されます。iCloud 同期（Pro）をオンにしていると、ブックマーク・「いつものサイト」・新着記事のサイトは、プライベートモード中に追加・変更したものも iCloud で同期されます（タブ・履歴・Cookie は同期しません）。</p>
+</details>
+<details>
+<summary>Q. 履歴やサイトのデータを消すには？</summary>
+<p>A. 閲覧履歴は、ブックマークの画面の「履歴」の側で、左上の「消去」を押すと、まとめて削除できます。Cookie やキャッシュなどサイトのデータは、設定の「Web サイトデータを消去」で消せます（各サイトからログアウトされます）。ログイン状態を保ったままキャッシュだけを消す「キャッシュのみ消去」もあります。</p>
+</details>
+</div>
+<div class="faq-group" data-w>
+<h3 id="bifrost-pro-と-icloud-同期">Bifrost Pro と iCloud 同期</h3>
+<details>
+<summary>Q. 別の端末でも Pro を使えますか？</summary>
+<p>A. 購入したときと同じ Apple アカウントなら使えます。新しい端末や再インストールの後は、設定の「Bifrost Pro」にある「購入を復元」を押してください。買い直しは不要です。</p>
+</details>
+<details>
+<summary>Q. iCloud 同期では、何が同期されますか？</summary>
+<p>A. Bifrost Pro の機能で、ブックマーク（フォルダと並びを含む）・「いつものサイト」・新着記事のサイト（バージョン 1.17 以降）を、同じ Apple Account でサインインした iPhone / iPad の間で同期します。設定の「iCloud 同期」でオンにします（iCloud にサインインしている必要があります）。設定・履歴・タブ・Cookie、「いつものサイト」のサムネイル、新着記事の記事と、自動で追加したサイトは同期しません。プライベートモード中に追加・変更したブックマーク・「いつものサイト」・新着記事のサイトは同期されます。データは Apple の iCloud のあなたの個人用の領域にだけ保存され、開発者のサーバーには送らず、開発者は中身を見られません。オフにしても、この端末と iCloud のデータは残ります。iCloud に保存した分は、設定の「iCloud のデータを削除」で消せます。</p>
+</details>
+</div>
+<div class="faq-group" data-w>
+<h3 id="新着記事-1">新着記事</h3>
+<details id="auto-add">
+<summary>Q. 新着記事の「よく見るサイトを自動で追加」は、どのように探して、どのくらいの間隔で確認しますか？</summary>
+<p>A. バージョン 1.17 以降で、設定の「新着記事」の「よく見るサイトを自動で追加」をオンにしたときだけ動きます。閲覧履歴から、よく見るサイトの新しい記事の配信（RSS / Atom）を探して、登録します。仕様は次のとおりです。</p>
+<ul>
+<li>探す対象: 通常モードの閲覧履歴の直近 30 日で、同じサイトの別々のページを 3 つ以上見たサイトです。検索結果・ログイン・支払いのページと、検索・メール・SNS・動画・通販・百科事典などの大手サイトは数えません。プライベートモードの履歴は残らないので、対象になりません。閲覧履歴を調べるのは端末の中だけで、履歴はどこにも送りません。</li>
+<li>読み込むもの: 候補のサイトのトップページと、そこに書かれた配信の場所、配信がありそうな決まった場所、そして各サイトの robots.txt だけです。閲覧履歴にあるページそのものは読みません（ログアウトや配信停止などのリンクを、知らないうちに開かないためです）。配信のないサイト（銀行など）のトップページも探すために読み込みますが、一覧には出ません。読み込みは各サイトから直接行い、開発者のサーバーは通りません。取得先のサイトには、ふつうにそのサイトを開いたときと同じく、アクセスしたこと（端末の IP アドレスなど）が伝わります。</li>
+<li>robots.txt: サイトが robots.txt で読み込みを断っている場合（<code>User-agent: *</code> の決まりに従います）は、そのページを読みません。</li>
+<li>最初の確認: オンにした直後に 1 回、よく見るサイトを探して、見つかったサイトの一覧を出します（1 回に最大 15 サイトを調べます。プライベートモードの間は探さず、通常モードに戻ってから探します）。チェックを外したサイトは追加しません。確認して始めるまで、自動では登録しません。一覧は 24 時間たつと古くなり、もう一度探せます。オフにして、もう一度オンにしたときも、最初から確認します。</li>
+<li>確認の間隔: 確認を済ませたあとは、設定の「探す間隔」で選んだ間隔（既定は 24 時間。3 時間にもできます）に 1 回までです。いつものサイトを表示したときや、アプリに戻ったときに、前回から選んだ時間以上たっていれば始まります（アプリが裏で動き続けることはありません）。1 回に調べるのは最大 5 サイトです。低電力モードの間は、この自動の確認は動きません（最初の確認と、自分で押す「探す」は動きます）。プライベートモードの間は、探しません。通信できなかったときは、アプリを開いている間、1 時間あけて試し直します。</li>
+<li>登録したサイトの更新: 登録したサイト（手で登録したものも含みます）の新着記事は、いつものサイトを表示したときなどに、前回の取得から 30 分以上たっていれば取り直します（低電力モードでは 2 時間、続けて読み込めないサイトは 6 時間）。</li>
+<li>配信が見つからなかったサイト: robots.txt で断られたサイトと、応答のなかったサイトも含めて、7 日、30 日、90 日と間をあけて、探し直します。</li>
+<li>上限: 自動で追加するのは 10 サイトまで、手で登録したサイトを含めて全部で 30 サイトまでです。</li>
+<li>自動で外すとき: 自動で追加したサイトだけが対象です。直近 30 日の履歴を途切れずに見ていて、足してからも 30 日間一度も見ていないサイトと、14 日以上、8 回以上続けて読み込めないサイトを外し、画面の上でお知らせします。手で登録したサイトは外しません。外したサイトは「外したサイト」に残り、自動では追加しません（そこから戻せます）。</li>
+<li>閲覧履歴を消したとき: 自動で追加したサイトと「外したサイト」は消え、最初の確認に戻ります。手で登録したサイトは残ります。</li>
+<li>Cookie: 読み込みには Cookie を付けません。ただし、サイトが別のアドレスへ転送する場合と、記事の写真を読み込む場合は、iOS が覚えているそのアドレスの Cookie が付くことがあります。</li>
+</ul>
+</details>
+</div>
+<div class="faq-group" data-w>
+<h3 id="プライバシーとサポート">プライバシーとサポート</h3>
+<details>
+<summary>Q. アプリが外部に送る情報はありますか？</summary>
+<p>A. 閲覧しているページの内容や、履歴・ブックマークの一覧を、開発者や第三者に送ることはありません（Pro の iCloud 同期をオンにしたときに、あなた自身の iCloud に保存する場合を除きます）。開発者はアプリのためのサーバーを持っていません。アプリ自身が行う通信は次の 8 つです。</p>
+<ul>
+<li>検索候補: アドレスバーと、いつものサイトの検索窓に入力中の文字を Google に送って候補を取得します</li>
+<li>トレンド: いつものサイトの上部に出す見出しを Yahoo! ニュースから取得します（Pro の X トレンドでは X から。バージョン 1.13 までは、X から取れないときにトレンドの一覧サイト getdaytrends.com を読み取ります）</li>
+<li>サイトのアイコン: ブックマーク・履歴・タブなどに出すアイコンを、サイト名（ホスト名）を元に Google のアイコン取得サービスから取得します。そのため、表示したサイトの名前は Google に伝わります（バージョン 1.14 以降、プライベートモードのタブでは取得しません）</li>
+<li>広告ブロックのフィルタ: 週に 1 回、フィルタの一覧を配布元（AdGuard・GitHub・EasyList）から取得します</li>
+<li>要望・不具合を送る: 設定と使い方ガイドの「要望・不具合を送る」を開いたときだけ、Google フォームのページを読み込みます。送信を押すと、選んだ種類と書いた内容、書いたときは機種、アプリと iOS の版が Google フォームに送られ、開発者が読みます。名前やメールアドレスは聞かず、診断ログも付けません（バージョン 1.14 以降）</li>
+<li>購入の確認: Bifrost Pro の購入状況を、iOS の仕組みを通して App Store に問い合わせます（Apple とのやり取りで、開発者には送られません）</li>
+<li>iCloud 同期（Pro）: オンにしたときだけ、ブックマークと「いつものサイト」（バージョン 1.17 以降は、新着記事に登録したサイトも）を、あなたの iCloud（Apple の CloudKit の個人用データベース）に保存し、同じ Apple Account の端末と同期します（Apple とのやり取りで、開発者には送られず、開発者は中身を見られません）</li>
+<li>新着記事（バージョン 1.17 以降。設定でオンにしたときだけ）: いつものサイトに出す新着記事のために、あなたが登録したサイトの更新情報（RSS / Atom のフィード）と、記事の写真を、各サイトから直接取得します。取得先のサイトには、ふつうにそのサイトを開いたときと同じく、アクセスしたこと（端末の IP アドレスなど）が伝わります。登録したサイトと取得した記事は端末の中に保存し（登録したサイトは、Pro の iCloud 同期をオンにしたときは、あなた自身の iCloud にも保存します）、開発者や第三者には送りません。更新情報の最初の要求には Cookie を付けませんが、サイトが別のアドレスへ転送した場合と、記事の写真を読み込む場合は、iOS が覚えているそのアドレスの Cookie（Bifrost で開いたサイトのログインの Cookie を含むことがあります）が付き、写真の応答の Cookie は保存されることがあります。プライベートモードのタブを開いているときも取得します（開いた記事の記録は残しません）。設定で「よく見るサイトを自動で追加」もオンにしたときは、閲覧履歴から端末の中で選んだ、よく見るサイトのトップページ・配信・robots.txt も、同じように各サイトから直接取得します（閲覧履歴は送りません。確認は、選んだ間隔（既定は 24 時間。3 時間にもできます）に 1 回までです。仕様は「<a href="#auto-add">よく見るサイトを自動で追加</a>」の項をご覧ください）</li>
+</ul>
+<p>購入の確認と iCloud 同期、新着記事の Cookie（上の一覧）を除き、端末やアカウントを特定する情報は付けません。</p>
+<p>ページ全体の翻訳（iOS 18 以上。バージョン 1.16 以降）は、Apple の翻訳の仕組みを使って端末の中で行います。ページの内容をアプリが外部に送ることはありません。初めて使う言語では、iOS が翻訳用の言語データをダウンロードします（確認の画面が出ます）。Apple の文書によると、Apple は翻訳機能の利用状況や性能の統計（アプリのバンドル ID と翻訳元・翻訳先の言語を含む）を集めることがありますが、翻訳する内容は含まれません。</p>
+</details>
+<details id="bug-report">
+<summary>Q. 不具合を報告するときは、何を伝えればよいですか？</summary>
+<p>A. 起きたときの操作と、設定の「詳細」にある「診断」の「診断ログをコピー」の内容を添えてもらえると助かります。動画が途中で止まるなど、サイトによって起きることは、どのサイトの動画か、広告が出ていたか、再生を始めてからどれくらいで止まったかも教えてください。診断ログは、起きた直後（ほかのサイトを開く前）にコピーしてください。古い記録は新しい記録に置き換わります。診断ログには、読み込みの所要時間とサイトのホスト名のほか、アプリと iOS の版、Cookie の件数、エラーや Pro の購入状況の確認結果などの動作の記録が入ります。ページの本文や入力した文字は含まれません。プライベートモード中のサイト名も記録しません。アプリが自動で送ることはなく、送るかどうかはご自身で決められます。</p>
+</details>
+</div>
+<script>
+(function () {
+  function reveal() {
+    var id = location.hash.slice(1);
+    try { id = decodeURIComponent(id); } catch (e) {}
+    var el = id ? document.getElementById(id) : null;
+    var opened = false;
+    for (var n = el; n; n = n.parentElement) {
+      if (n.tagName === 'DETAILS') {
+        if (!n.open) { n.open = true; opened = true; }
+      }
+    }
+    if (opened) { el.scrollIntoView(); }
+  }
+  window.addEventListener('hashchange', reveal);
+  reveal();
+})();
+</script>
+<!-- /verbatim:faq -->
+  </div>
+</section>
+
+<!-- ===== ご要望への対応状況（本文はそのまま）===== -->
+<section class="sec sec-alt sec-status" aria-labelledby="requests">
+  <div class="wrap">
+<!-- verbatim:requests -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">Requests</p>
+<h2 id="requests">ご要望への対応状況（<span class="nw" data-w>2026-11-25</span> 時点）</h2>
+<p>要望・不具合のフォームなどでいただいた、機能のご要望と、いまの状況です（お名前などは載せていません）。「対応予定」は、次のアップデートに入る予定のもの、「検討中」は、時期が決まっていないものです。ご要望は、<a href="#support">サポート・お問い合わせ</a>からお送りください。</p>
+</div>
+<div class="status-grid" data-w>
+<div class="card status st-done" data-w>
+<p><strong>対応済み</strong></p>
+<ul>
+  <li>新しいタブで開くページを、いつものサイトか好きなサイトから選べる。急上昇ワードを隠せる（バージョン 1.15）</li>
+  <li>全画面モード（バージョン 1.15）</li>
+  <li>サイトのダーク表示（バージョン 1.15）</li>
+  <li>ブックマークといつものサイトを、iCloud で同期（Pro。バージョン 1.15）</li>
+  <li>ジェスチャーの感度の調整、形ごとの動作の割り当て、閉じたタブを戻す、円で更新、操作の印の表示（バージョン 1.16）</li>
+  <li>タブの高さと幅を、小・標準・大から選べる（バージョン 1.16）</li>
+  <li>ブックマークの「すべて開く」（バージョン 1.16）</li>
+  <li>ページ全体の翻訳（バージョン 1.16）</li>
+  <li>「Safari で開く」を、Safari を指定して開く動きに変更（バージョン 1.16）</li>
+  <li>ジェスチャーの動作に「新しいタブを開く」「すべてのタブを閉じる」を追加。↓→↓→ の形も追加（バージョン 1.17）</li>
+  <li>ジェスチャーが決まったときの振動（設定でオフにできます。バージョン 1.17）</li>
+  <li>右端のどこをなぞってもスクロールできる（設定でオン。バージョン 1.17）</li>
+  <li>ブックマークの「すべて開く」のあとに、ブックマークの画面を閉じる（バージョン 1.17）</li>
+  <li>新着記事（設定でオンにすると、いつものサイトの画面を横へスクロールして、登録したサイトの新着記事を見られます。よく見るサイトの自動追加と、Pro の iCloud 同期にも対応。バージョン 1.17）</li>
+</ul>
+</div>
+<div class="card status st-next" data-w>
+<p><strong>対応予定（次のアップデート）</strong></p>
+<ul>
+  <li>アプリのアイコンを選べるようにする</li>
+  <li>拡大を止めているページでも、画像をピンチで拡大・縮小できるようにする</li>
+</ul>
+</div>
+<div class="card status st-hold" data-w>
+<p><strong>検討中</strong></p>
+<ul>
+  <li>ほかのブラウザ（Sleipnir など）のブックマークの引き継ぎの対象を増やす（いまは、Safari・Chrome・Firefox・Edge のブックマークを、Pro で取り込めます）</li>
+  <li>iPad などの広い画面で、下のボタンをアドレスバーに統合して 1 行にする（いまは、設定の「表示」の「スクロールでバーを小さくする」をオフにすると、バーを固定できます）</li>
+  <li>iPhone Duo（折りたたみ）への対応（実機で確認できていません。使いにくい所があれば、どの画面で、どうなるかをお知らせください）</li>
+  <li>Android 版（いまは iPhone / iPad 向けです。ご要望が数多く寄せられたときや、Sleipnir の Android 版が終了したり、仕様が大きく変わったときに、対応を検討します）</li>
+</ul>
+</div>
+<div class="card status st-no" data-w>
+<p><strong>対応しないもの</strong></p>
+<ul>
+  <li>タブの高さと幅の、ピクセルでの指定（小・標準・大の 3 段階で対応しています）</li>
+</ul>
+</div>
+</div>
+<!-- /verbatim:requests -->
+  </div>
+</section>
+
+<!-- ===== 不具合のご報告への対応状況（本文はそのまま）===== -->
+<section class="sec sec-alt sec-status" aria-labelledby="bug-status">
+  <div class="wrap">
+<!-- verbatim:bug-status -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">Bug reports</p>
+<h2 id="bug-status">不具合のご報告への対応状況（<span class="nw" data-w>2026-11-25</span> 時点）</h2>
+<p>要望・不具合のフォームなどでいただいた、不具合のご報告と、いまの状況です（お名前などは載せていません）。新しい症状や、起きる条件が分かったときは、<a href="#support">サポート・お問い合わせ</a>からお送りください。診断ログを添えていただけると助かります（<a href="#bug-report">不具合を報告するときは、何を伝えればよいですか？</a>）。</p>
+</div>
+<div class="status-grid" data-w>
+<div class="card status st-done" data-w>
+<p><strong>修正済み（バージョン 1.17）</strong></p>
+<ul>
+  <li>ダウンロードになるリンクを開いたタブが、閉じられなくなる。見るたびにダウンロードが始まる</li>
+  <li>pixiv など、画像を保存できないサイトがある</li>
+  <li>サイトのダーク表示で、読み込み中や更新の直後に、白い画面が出る。エラーのページや、http の注意のページが、ダークにならない</li>
+  <li>「タブを閉じる」のジェスチャー（下から右）で、横を長く引くと、閉じずに隣のタブへ切り替わる</li>
+</ul>
+</div>
+<div class="card status st-next" data-w>
+<p><strong>修正予定（次のアップデート）</strong></p>
+<ul>
+  <li>タブ一覧のサムネイルに、ダーク表示が適用されないことがある</li>
+  <li>「すべてのサイトを暗くする」が、ページによって、一部に適用されない</li>
+</ul>
+</div>
+<div class="card status st-hold" data-w>
+<p><strong>調査中</strong></p>
+<ul>
+  <li>動画の再生が、すぐ止まることがある（どのサイトか、広告が出ていたか、止まるまでの時間を教えてください）</li>
+  <li>下に引いても、タブが閉じないことがある（原因の候補を、よくある質問の「<a href="#tab-wont-close">タブが閉じないことがあります。</a>」に書きました）</li>
+  <li>Google の画像検索などから戻るときに、Bifrost ではなく Chrome が起動することがある（再現できていません。バージョン 1.17 から、ページが Chrome などのリンクを開こうとしたときは、そのリンクのページを Bifrost の中で開くようにしました。画面の左上の「◀ Chrome」のようなボタンを押した場合の説明は、よくある質問の「<a href="#chrome-launched">ページを戻ろうとしたら、Chrome など別のアプリが開きました。</a>」に書きました。それでも起動するときは、起動したアプリのアイコンと、押した「戻る」を教えてください）</li>
+</ul>
+</div>
+</div>
+<!-- /verbatim:bug-status -->
+  </div>
+</section>
+
+<!-- ===== サポート・お問い合わせ（本文はそのまま）===== -->
+<section class="sec" aria-labelledby="support">
+  <div class="wrap">
+<!-- verbatim:support -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">Support</p>
+<h2 id="support">サポート・お問い合わせ</h2>
+<p>バグ報告・機能要望・その他のお問い合わせは、下記いずれかの方法でご連絡ください。</p>
+</div>
+<div class="contact" data-w>
+<ul>
+  <li><strong>X (旧 Twitter)</strong>: <a href="https://x.com/bifrost_apps_x" rel="noopener">@bifrost_apps_x</a></li>
+  <li><strong>メール</strong>: bifrost.apps.support@gmail.com</li>
+  <li><strong>アプリから</strong>: 設定のトップと使い方ガイドの「お問い合わせ」にある「要望・不具合を送る」で、匿名のフォームから送れます（バージョン 1.14 以降）。返信が必要なときは、X かメールでご連絡ください</li>
+</ul>
+</div>
+<div class="support-notes" data-w>
+<p>最新情報や開発状況は X で随時発信しています。</p>
+<p>App Store の<a href="https://apps.apple.com/jp/app/id6772665065?action=write-review" rel="noopener">評価・レビュー</a>もお待ちしています（iPhone / iPad で開くと、App Store の評価を書く画面に進みます）。</p>
+<p>アプリの設定のトップにある「公式サイト・サポート」と、使い方ガイドの「公式サイト」からも、このページを開けます（バージョン 1.11 以降）。</p>
+<p>不具合の報告のしかたは、よくある質問の「<a href="#bug-report">不具合を報告するときは、何を伝えればよいですか？</a>」をご覧ください。</p>
+</div>
+<!-- /verbatim:support -->
+  </div>
+</section>
+
+<!-- ===== Privacy Policy（英語。本文はそのまま・ページの最後）===== -->
+<section class="sec sec-alt" aria-labelledby="privacy-policy" lang="en">
+  <div class="wrap">
+<!-- verbatim:privacy-policy -->
+<div class="sec-head" data-w>
+<p class="eyebrow" data-deco aria-hidden="true">Privacy</p>
+<h2 id="privacy-policy">Privacy Policy</h2>
+<p>Last updated: 2026-11-24</p>
+</div>
+<div class="policy" data-w>
+<p>Bifrost (the “App”) is a web browser developed for iOS.</p>
+<h3 id="data-collection">Data Collection</h3>
+<p>The App does <strong>not</strong> collect personal data automatically. The developer does not operate any server for the App, and none of
+your data — including bookmarks, browsing history, downloaded files, settings, and tab states — is sent to the developer. This
+data is stored on your device (and in your own iOS backups, such as iCloud Backup, if you use them). If you turn on iCloud Sync (a Bifrost Pro feature, available from version 1.15), your bookmarks (including folders and their order), Speed Dial (home screen) sites and, from version 1.17, the sites you register for New Articles are also stored in your own iCloud account, in a private CloudKit database provided by Apple. That data is available only to you through your Apple Account; the developer cannot read it and does not receive it. History, tabs, settings, Speed Dial thumbnails and fetched articles are not synced. The developer receives only
+what you choose to send with the feedback form described below.</p>
+<h3 id="feedback-form">Feedback Form</h3>
+<p>From version 1.14, “要望・不具合を送る” (Send requests and bug reports) in Settings and in the user guide opens a Google Form in
+a Bifrost tab. The App fills in only the App version and the iOS version. Nothing is sent until you press the form’s submit
+button. The form does not ask for your name, email address or account, and the App does not attach its diagnostic log. What you
+submit (the kind of feedback and your message, and, if filled in, your device model and the versions) is stored in Google Forms
+and is used only to respond to feedback and to improve the App. Please do not include personal information in your message.
+Google Forms is operated by Google under Google’s privacy policy.</p>
+<h3 id="third-party-services">Third-Party Services</h3>
+<p>To provide some features, the App itself contacts the following services. Apart from the purchase check, iCloud Sync and the cookies described under New Articles below, no information that
+identifies your device or account is attached.</p>
+<ul>
+  <li><strong>Search suggestions</strong>: the text you are typing in the address bar or in the search box of the home screen is sent to Google
+to fetch suggestions.</li>
+  <li><strong>Site icons</strong>: the host names of sites shown in bookmarks, history, tabs and similar lists are sent to Google’s favicon
+service to fetch their icons. From version 1.14, icons are not fetched for tabs in Private Mode.</li>
+  <li><strong>Trending topics</strong>: headlines for the home screen are fetched from Yahoo! News (or, for Bifrost Pro users who choose it,
+trends from X). Up to version 1.13, when trends cannot be fetched from X, the App reads a public trend-listing site,
+getdaytrends.com, instead.</li>
+  <li><strong>Ad-block filter lists</strong>: once a week, the filter lists are downloaded from their publishers (AdGuard, GitHub and EasyList).</li>
+  <li><strong>Feedback form</strong>: when you open “要望・不具合を送る”, the form page is loaded from Google, and when you submit it, what you
+entered is sent to Google Forms (see Feedback Form above).</li>
+  <li><strong>Purchases</strong>: the status of a Bifrost Pro purchase is checked with the App Store through Apple’s StoreKit. This is handled
+by Apple; nothing is sent to the developer.</li>
+  <li><strong>iCloud Sync (Bifrost Pro)</strong>: when you turn it on, bookmarks, Speed Dial sites and (from version 1.17) the sites you register
+for New Articles are saved to your private iCloud (CloudKit) storage and synced to your other devices that use the same Apple
+Account. This is handled by Apple; nothing is sent to the developer.</li>
+  <li><strong>New Articles (from version 1.17; only if you turn it on in Settings)</strong>: the App downloads the feeds (RSS or Atom) of the
+sites you register, and the images of their articles, directly from those sites and from the servers that host the images.
+The sites you register and the articles fetched are stored on your device (and, if you use iCloud Sync, the sites you
+register are also stored in your own iCloud, as described above); nothing is sent to the developer. Like any visit from a
+browser, a request tells the site that you accessed it (for example, your IP address). The App does not attach cookies to the
+first request for a feed. However, if a site redirects the request to another address, and when the App loads an article’s
+image, iOS may attach the cookies it holds for that address (which can include login cookies of sites you opened in Bifrost),
+and cookies set in an image response may be stored. Feeds are also fetched while Private Mode tabs are open (articles you open
+from the list are not recorded as opened in Private Mode).</li>
+  <li><strong>Add Frequently Visited Sites Automatically (from version 1.17; only if you turn it on in Settings)</strong>: the App chooses
+frequently visited sites from your browsing history (the last 30 days, normal mode only) on your device; the history itself is
+never sent anywhere. To find the feeds of those sites, the App downloads each site’s top page, the feed locations it points to or
+commonly uses, and the site’s robots.txt directly from the site (not through the developer’s servers), at most once per interval
+you choose in Settings (24 hours by default, or 3 hours) after you confirm the first list, and it does not download pages that
+the site’s robots.txt disallows. Like any visit, a request tells the site that you accessed it (for example, your IP address).
+The App does not attach cookies to these requests, except where iOS attaches them after a redirect, as described under New
+Articles. It does not search while Private Mode is on, and the automatic check does not run in Low Power Mode (a search that
+you start yourself, such as the first one, does).</li>
+</ul>
+<h3 id="web-content">Web Content</h3>
+<p>The App allows the user to access third-party websites. The privacy practices of those websites are governed by their own privacy
+policies. Bifrost does not transmit any identifying information to those websites beyond what the standard WKWebView engine
+provides.</p>
+<h3 id="childrens-privacy">Children’s Privacy</h3>
+<p>The App does not knowingly collect personal data from anyone, including children under 13.</p>
+<h3 id="changes">Changes</h3>
+<p>Any changes to this Privacy Policy will be posted on this page.</p>
+<h3 id="contact">Contact</h3>
+<p>bifrost.apps.support@gmail.com</p>
+</div>
+<!-- /verbatim:privacy-policy -->
+  </div>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <p class="foot-brand"><img src="assets/img/icon.png" width="112" height="112" alt="" loading="lazy" decoding="async">Bifrost</p>
+    <nav class="foot-nav" aria-label="目次（ページの下）">
+      <ul>
+        <li><a href="#features">主な機能</a></li>
+        <li><a href="#tips">便利な操作</a></li>
+        <li><a href="#pro">Bifrost Pro</a></li>
+        <li><a href="#updates">最新のアップデート</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+        <li><a href="#requests">ご要望への対応状況</a></li>
+        <li><a href="#bug-status">不具合のご報告への対応状況</a></li>
+        <li><a href="#support">サポート・お問い合わせ</a></li>
+        <li><a href="#privacy-policy">Privacy Policy</a></li>
+      </ul>
+    </nav>
+    <p><a class="btn-store" href="https://apps.apple.com/jp/app/id6772665065" rel="noopener">App Store からダウンロード</a></p>
+  </div>
+</footer>
+</body>
+</html>
